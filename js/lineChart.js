@@ -1,0 +1,138 @@
+/*
+ * LineChart - Object constructor function
+ * @param _parentElement 	-- the HTML element in which to draw the visualization
+ * @param _data						-- the  
+ */
+LineChart = function(_parentElement, _data){
+	this.parentElement = _parentElement;
+	this.lineData = _data;
+	this.displayData = []; // see data wrangling
+
+	// DEBUG RAW DATA
+	console.log(this.lineData);
+
+	this.initVis();
+}
+
+/*
+ * Initialize visualization (static content, e.g. SVG area or axes)
+ */
+LineChart.prototype.initVis = function(){
+
+	var vis = this;
+
+	vis.margin = { top: 40, right: 0, bottom: 60, left: 100 };
+	vis.width = 800 - vis.margin.left - vis.margin.right;
+	vis.height = 800 - vis.margin.top - vis.margin.bottom;
+
+	// SVG drawing area
+	vis.svg = d3.select("#" + vis.parentElement).append("svg")
+	    .attr("width", vis.width + vis.margin.left + vis.margin.right)
+	    .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
+	  	.append("g")
+	    .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
+
+	// Scales and axes
+	vis.x = d3.time.scale()
+  		.range([0, vis.width])
+  		.domain(d3.extent(vis.lineData, function(d) { return d.Year; }));
+
+	vis.y = d3.scale.linear()
+		.range([vis.height, 0]);
+
+	vis.xAxis = d3.svg.axis()
+		  .scale(vis.x)
+		  .orient("bottom");
+
+	vis.yAxis = d3.svg.axis()
+	    .scale(vis.y)
+	    .orient("left");
+
+	vis.svg.append("g")
+	    .attr("class", "x-axis axis")
+	    .attr("transform", "translate(0," + vis.height + ")");
+
+	vis.svg.append("g")
+			.attr("class", "y-axis axis");
+
+	vis.svg.append("g")
+		.append("text")
+		.attr("class", "label-y-axis")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 6)
+		.attr("dy", ".71em")
+		.style("text-anchor", "end")
+		.text("Average Wealth ($)");
+
+	// Get all categories
+	var dataCategories = colorScale.domain();
+
+	// Transpose the data by rearranging data into layers
+	vis.transposedData = dataCategories.map(function(name) {
+		return {
+			name: name,
+			values: vis.lineData.map(function(d) {
+				return {Year: d.Year, average_wealth: +d[name]};
+			})
+		};
+	});
+	console.log(vis.transposedData);
+
+	// Line chart's layout
+	vis.line = d3.svg.line()
+		.interpolate("basis")
+		.x(function(d) { return vis.x(d.Year); })
+		.y(function(d) { return vis.y(d.average_wealth); });
+
+	// Filter, aggregate, modify data
+	vis.wrangleData();
+}
+
+/*
+ * Data wrangling
+ */
+LineChart.prototype.wrangleData = function(){
+	var vis = this;
+
+	vis.displayData = vis.transposedData;
+	//console.log(vis.displayData);
+
+	// Update the visualization
+	vis.updateVis();
+}
+
+/*
+ * The drawing function - should use the D3 update sequence (enter, update, exit)
+ * Function parameters only needed if different kinds of updates are needed
+ */
+LineChart.prototype.updateVis = function(){
+	var vis = this;
+
+	// Update domain
+	//vis.y.domain(d3.extent(vis.displayData, function(d) { return d3.max(d.values, function(v) { return v.average_wealth; }); }));
+	vis.y.domain([
+		0,
+		d3.max(vis.displayData, function(d) { return d3.max(d.values, function(v) { return v.average_wealth; }); })
+	]);
+
+	// Draw the areas
+	var categories = vis.svg.selectAll(".line")
+		.data(vis.displayData);
+
+	categories.enter().append("path")
+		.attr("class", "line");
+
+	categories
+  		.style("stroke", function(d) {
+  			return colorScale(d.name);
+  		})
+		.attr("d", function(d) {
+			return vis.line(d.values); })
+		.attr("fill", "none");
+
+	categories.exit().remove();
+
+	// Call axis functions with the new domain 
+	vis.svg.select(".x-axis").call(vis.xAxis);
+  	vis.svg.select(".y-axis").call(vis.yAxis);
+}

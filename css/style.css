@@ -20,3 +20,10 @@ h2 {
 	padding-right: 30px;
 	padding-left: 30px;
 }
+
+.tooltip-placeholder {
+    text-anchor: left;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 15px;
+}
