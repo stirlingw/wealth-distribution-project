@@ -20,3 +20,34 @@ h2 {
 	padding-right: 30px;
 	padding-left: 30px;
 }
+
+section {
+  min-height: 800px;
+  border: 10px solid deeppink;
+  padding: 2em
+}
+
+section:nth-child(2n+2) {
+  border-color: deepskyblue;
+}
+
+#menu {
+  position: fixed;
+  right: 2em;
+  top: 2em;
+}
+
+#menu {
+  list-style-type: none;
+}
+
+#menu li.skrollable-between,
+#menu li.skrollable-after:last-child {
+  list-style-type: disc;
+}
+
+#menu a,
+#menu a:link,
+#menu a:visited {
+  color: blue;
+}}
