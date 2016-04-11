@@ -16,58 +16,66 @@
 	<!-- Custom CSS code -->
 	<link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
+
 	<!-- Start Top Nav -->
-	<nav id="navbar-docs" class="navbar navbar-default navbar-primary navbar-fixed-top" role="navigation">
-		<div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
+	<nav class="navbar navbar-default navbar-primary navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span>
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<div class="pull-left">
-					<a class="navbar-brand" href="index.html">The Inequality of Wealth in America</a>
+				<a class="navbar-brand" href="#">Inequality of Wealth in America</a>
+			</div>
+			<div>
+				<div class="collapse navbar-collapse" id="myNavbar">
+					<ul class="nav navbar-nav">
+						<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 1 <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#section1">Section 1-1</a></li>
+								<li><a href="#section11">Section 1-2</a></li>
+							</ul>
+						</li>
+						<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 2 <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#section2">Section 2-1</a></li>
+								<li><a href="#section21">Section 2-2</a></li>
+							</ul>
+						</li>
+					</ul>
 				</div>
-				<div class="pull-left">
-					<a class="navbar-brand" href="#section1">Section 1</a>
-				</div>
-				<div class="menu-item pull-left">
-					<a class="navbar-brand" href="#section2">Section 2</a>
-				</div>
-
 			</div>
 		</div>
 	</nav>
 	<!-- // End Top Nav -->
-
-	<!-- http://output.jsbin.com/gozota/7/  -->
-	<div id=skrollr-body >
-		<section id=section1 style="margin-top:50px; padding-top:80px;">
-			<p>Section 1</p>
-			<p>Recipe by <a href="http://github.com/lolmaus">lolmaus (Andrey Mikhaylov)</a></p>
-		</section>
-		<section id=section2 style="padding-top:80px;">Section 2</section>
-		<section id=section3>Section 3</section>
-		<section id=section4>Section 4</section>
-		<section id=section5>Section 5</section>
-		<section id=section6>Section 6</section>
-		<section id=section7>Section 7</section>
-		<section id=section8>Section 8</section>
-		<section id=section9>Section 9</section>
-		<section id=section10>Section 10</section>
+	<div id="section1" class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				Setting up for chart 1
+			</div>
+		</div>
 	</div>
-
-	<div class="container-fluid">
-
+	<div id="section11" class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
 				<!-- Visualization placeholders -->
-				<div id="choropleth-chart"></div>
-				<div id="timeline"></div>
 				<div id="line-chart"></div>
+			</div>
+		</div>
+	</div>
+	<div id="section2" class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				Setting up for chart 1
+			</div>
+		</div>
+	</div>
+	<div id="section21" class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<!-- Visualization placeholders -->
 				<div id="area-chart"></div>
 			</div>
 		</div>
