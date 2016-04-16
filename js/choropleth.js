@@ -6,27 +6,40 @@ var roundChart = dc.bubbleChart("#round-chart");
 
 // Use the Queue.js library to read three files
 queue()
-	.defer(d3.csv, "data/vc.csv")
+	.defer(d3.csv, "data/wid_world_income_distribution.csv")
     .defer(d3.json, "data/us-states.json")
     .await(createVisualization);
 
 
+/*
+Year,
+State,
+Income distribution (bottom 90, top 10, top 5, top 1, top 0.01)
+Income
+*/
+
 function createVisualization(error, dataCSV, statesJson){
 	var data = crossfilter(dataCSV);
 
+	var states = data.dimension(function (d) {
+		return d["state_abv"];
+	});
 
+	var year = data.dimension(function (d) {
+        return d["year"];
+    });
 
-//	var states = data.dimension(function (d) {
-//		return d["State"];
-//	});
 //	var stateRaisedSum = states.group().reduceSum(function (d) {
 //		return d["Raised"];
 //	});
-//
-//	var industries = data.dimension(function (d) {
-//		return d["Industry Group"];
+
+
+//	var income_share = data.dimension(function (d) {
+//	    console.log(d["top_5%_income_share_including_capital_gains"]);
+//		return d["top_5%_income_share_including_capital_gains"];
 //	});
-//	var statsByIndustries = industries.group().reduce(
+//
+//	var statsByIncome_Share = income_share.group().reduce(
 //			function (p, v) {
 //				p.amountRaised += +v["Raised"];
 //				p.deals += +v["Deals"];
@@ -63,19 +76,19 @@ function createVisualization(error, dataCSV, statesJson){
 //			}
 //	);
 //
-//	usChart.width(990)
-//					.height(500)
-//					.dimension(states)
-//					.group(stateRaisedSum)
-//					.colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
-//					.colorDomain([0, 200])
-//					.colorCalculator(function (d) { return d ? usChart.colors()(d) : '#ccc'; })
-//					.overlayGeoJson(statesJson.features, "state", function (d) {
-//						return d.properties.name;
-//					})
-//					.title(function (d) {
-//						return "State: " + d.key + "\nTotal Amount Raised: " + numberFormat(d.value ? d.value : 0) + "M";
-//					});
+	usChart.width(990)
+					.height(500)
+					.dimension(states)
+					.group(stateRaisedSum)
+					.colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
+					.colorDomain([0, 200])
+					.colorCalculator(function (d) { return d ? usChart.colors()(d) : '#ccc'; })
+					.overlayGeoJson(statesJson.features, "state", function (d) {
+						return d.properties.name;
+					})
+					.title(function (d) {
+						return "State: " + d.key + "\nTotal Amount Raised: " + numberFormat(d.value ? d.value : 0) + "M";
+					});
 //
 //	industryChart.width(990)
 //			.height(200)
