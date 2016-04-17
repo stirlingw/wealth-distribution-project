@@ -33,19 +33,19 @@ LineChart.prototype.initVis = function(){
 	    .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
 	// Scales and axes
-	vis.x = d3.time.scale()
+	vis.xScale = d3.time.scale()
   		.range([0, vis.width])
   		.domain(d3.extent(vis.lineData, function(d) { return d.Year; }));
 
-	vis.y = d3.scale.linear()
+	vis.yScale = d3.scale.linear()
 		.range([vis.height, 0]);
 
 	vis.xAxis = d3.svg.axis()
-		  .scale(vis.x)
+		  .scale(vis.xScale)
 		  .orient("bottom");
 
 	vis.yAxis = d3.svg.axis()
-	    .scale(vis.y)
+	    .scale(vis.yScale)
 	    .orient("left");
 
 	vis.svg.append("g")
@@ -64,8 +64,18 @@ LineChart.prototype.initVis = function(){
 		.style("text-anchor", "end")
 		.text("Average Wealth ($)");
 
+	// Set ordinal color scale
+	vis.colorScale = d3.scale.category10();
+
+	// Update color scale (all column headers except "Year")
+	// Color scale will be used later for the line chart
+	vis.colorScale.domain(d3.keys(vis.lineData[0]).filter(function (key) {
+		return key != "Year";
+	}));
+	console.log(vis.colorScale.domain());
+
 	// Get all categories
-	var dataCategories = colorScale.domain();
+	var dataCategories = vis.colorScale.domain();
 
 	// Transpose the data by rearranging data into layers
 	vis.transposedData = dataCategories.map(function(name) {
@@ -81,8 +91,8 @@ LineChart.prototype.initVis = function(){
 	// Line chart's layout
 	vis.line = d3.svg.line()
 		.interpolate("basis")
-		.x(function(d) { return vis.x(d.Year); })
-		.y(function(d) { return vis.y(d.average_wealth); });
+		.x(function(d) { return vis.xScale(d.Year); })
+		.y(function(d) { return vis.yScale(d.average_wealth); });
 
 	// Filter, aggregate, modify data
 	vis.wrangleData();
@@ -109,13 +119,13 @@ LineChart.prototype.updateVis = function(){
 	var vis = this;
 
 	// Update domain
-	//vis.y.domain(d3.extent(vis.displayData, function(d) { return d3.max(d.values, function(v) { return v.average_wealth; }); }));
-	vis.y.domain([
+	//vis.yScale.domain(d3.extent(vis.displayData, function(d) { return d3.max(d.values, function(v) { return v.average_wealth; }); }));
+	vis.yScale.domain([
 		0,
 		d3.max(vis.displayData, function(d) { return d3.max(d.values, function(v) { return v.average_wealth; }); })
 	]);
 
-	// Draw the areas
+	// Draw the lines
 	var categories = vis.svg.selectAll(".line")
 		.data(vis.displayData);
 
@@ -124,7 +134,7 @@ LineChart.prototype.updateVis = function(){
 
 	categories
   		.style("stroke", function(d) {
-  			return colorScale(d.name);
+  			return vis.colorScale(d.name);
   		})
 		.attr("d", function(d) {
 			return vis.line(d.values); })

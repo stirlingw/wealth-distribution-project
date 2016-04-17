@@ -22,7 +22,7 @@ AreaChart.prototype.initVis = function(){
 	var vis = this;
 
 	vis.margin = { top: 40, right: 0, bottom: 60, left: 100 };
-	vis.width = 1000 - vis.margin.left - vis.margin.right;
+	vis.width = 800 - vis.margin.left - vis.margin.right;
 	vis.height = 800 - vis.margin.top - vis.margin.bottom;
 
 	// SVG drawing area
@@ -33,19 +33,20 @@ AreaChart.prototype.initVis = function(){
 		.attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
 	// Scales and axes
-	vis.x = d3.time.scale()
+	vis.xScale = d3.time.scale()
 		.range([0, vis.width])
 		.domain(d3.extent(vis.areaData, function(d) { return d.Year; }));
 
-	vis.y = d3.scale.linear()
+	vis.yScale = d3.scale.linear()
 		.range([vis.height, 0]);
 
 	vis.xAxis = d3.svg.axis()
-		.scale(vis.x)
+		.scale(vis.xScale)
 		.orient("bottom");
 
 	vis.yAxis = d3.svg.axis()
-		.scale(vis.y)
+		.scale(vis.yScale)
+		.tickFormat(formatCurrency)
 		.orient("left");
 
 	vis.svg.append("g")
@@ -64,8 +65,18 @@ AreaChart.prototype.initVis = function(){
 		.style("text-anchor", "end")
 		.text("Average Wealth ($)");
 
+	// Set ordinal color scale
+	vis.colorScale = d3.scale.category10();
+
+	// Update color scale (all column headers except "Year")
+	// Color scale will be used later for the stacked area chart
+	vis.colorScale.domain(d3.keys(vis.areaData[0]).filter(function (key) {
+		return key != "Year";
+	}));
+	console.log(vis.colorScale.domain());
+
 	// Get all categories
-	var dataCategories = colorScale.domain();
+	var dataCategories = vis.colorScale.domain();
 
 	// Transpose the data by rearranging data into layers
 	vis.transposedData = dataCategories.map(function(name) {
@@ -81,9 +92,9 @@ AreaChart.prototype.initVis = function(){
 	// Area chart's layout
 	vis.area = d3.svg.area()
 		.interpolate("cardinal")
-		.x(function(d) { return vis.x(d.Year); })
+		.x(function(d) { return vis.xScale(d.Year); })
 		.y0(vis.height)
-		.y1(function(d) { return vis.y(d.average_wealth); });
+		.y1(function(d) { return vis.yScale(d.average_wealth); });
 
 	// Tooltip placeholder
 	var tooltip_x_pos = 35;
@@ -133,7 +144,7 @@ AreaChart.prototype.updateVis = function(){
 	var vis = this;
 
 	// Update domain
-	vis.y.domain([
+	vis.yScale.domain([
 		0,
 		d3.max(vis.displayData, function(d) { return d3.max(d.values, function(v) { return v.average_wealth; }); })
 	]);
@@ -147,7 +158,7 @@ AreaChart.prototype.updateVis = function(){
 
 	categories
 		.style("fill", function(d) {
-			return colorScale(d.name);
+			return vis.colorScale(d.name);
 		})
 		.attr("d", function(d) {
 			return vis.area(d.values); });
@@ -157,7 +168,7 @@ AreaChart.prototype.updateVis = function(){
 		.on("mouseover", function(d) {
 			vis.svg.selectAll(".tooltip-placeholder")
 				.text(d.name)
-				.style("fill", colorScale(d.name));
+				.style("fill", vis.colorScale(d.name));
 		})
 		.on("mouseout", function(d) {
 			vis.svg.selectAll(".tooltip-placeholder")

@@ -1,10 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>CS171 - Lab 5</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The Inequality of Wealth in America</title>
 
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/style.css">
@@ -13,62 +13,101 @@
 
 	<link href='https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700' rel='stylesheet' type='text/css'>
 </head>
-<body>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
 
-	<div class="container">
+    <!-- Start Top Nav -->
+    <nav class="navbar navbar-default navbar-primary navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Inequality of Wealth in America</a>
+            </div>
+            <div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 1 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#section1">Section 1-1</a></li>
+                                <li><a href="#section11">Section 1-2</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 2 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#section2">Section 2-1</a></li>
+                                <li><a href="#section21">Section 2-2</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 3 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#section3">Section 3-1</a></li>
+                                <li><a href="#section31">Section 3-2</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- // End Top Nav -->
+    <div id="section1" class="container-fluid" style="margin-top:50px;">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Jee Loong Chew - jee.loong@gmail.com<br>
+                    Kirill B - kirill00k@gmail.com<br>
+                    Stirling Waite - stirlingw@gmail.com</p>
 
-		<h2>US Venture Capital Landscape 2011</h2>
-
-		<p>
-			This is a <a href="../index.html">dc.js</a> example showing how GeoJson Polygon can be associated with
-			crossfilter
-			dimension and group using a choropleth chart. Different regions can be colored differently based on different
-			calculation (amount raised). Like any other dc.js chart a choropleth chart can then be mixed with other dc.js
-			chart
-			or your own custom d3 drawing. In this example we have shown how it can work with multiple bubble chart.
-		</p>
-
-		<p>
-			Public data source
-			<a href="http://buzzdata.com/azad2002/the-united-states-of-venture-capital-2011#!/data" target="_blank">BuzzData.com</a>.
-		</p>
-
-		<div id="us-chart">
-			<strong>VC Distribution by States (color: total amount raised)</strong>
-			<a class="reset" href="javascript:usChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-			<span class="reset" style="display: none;"> | Current filter: <span class="filter"></span></span>
-
-			<div class="clearfix"></div>
-		</div>
-
-		<div class="clearfix"></div>
-
-		<div id="industry-chart">
-			<strong>By Industries</strong> (y: number of deals, x: total amount raised in millions, radius: amount raised)
-			<a class="reset" href="javascript:industryChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-
-			<div class="clearfix"></div>
-		</div>
-
-		<div class="clearfix"></div>
-
-		<div id="round-chart">
-			<strong>By Rounds</strong> (y: number of deals, x: total amount raised in millions, radius: amount raised)
-			<a class="reset" href="javascript:roundChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-
-			<div class="clearfix"></div>
-		</div>
-
-		<div class="clearfix"></div>
-
-		<div>
-			<a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
-		</div>
-
-	</div>
-
-
-
+                <p>Our perception of the distribution of wealth in America is not quite accurate,
+                    especially in terms of inequalities and the actual real numbers.  Are only the
+                    top 10% earners in the economy living “life of luxury”, and the other 90%
+                    getting the scraps?  How much money does it take to “feel rich” in America?</p>
+            </div>
+        </div>
+    </div>
+    <div id="section11" class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Visualization placeholders -->
+                <div id="choropleth"></div>
+            </div>
+        </div>
+    </div>
+    <div id="section2" class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                Setting up for chart 2
+            </div>
+        </div>
+    </div>
+    <div id="section21" class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Visualization placeholders -->
+                <div id="area-chart"></div>
+            </div>
+        </div>
+    </div>
+    <div id="section3" class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                Setting up for chart 3
+            </div>
+        </div>
+    </div>
+    <div id="section31" class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Visualization placeholders -->
+                <div id="small-multiples">
+                    <div id="previews"></div>
+                    <div id="detail" class="hidden"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<!-- Load JS libraries: jQuery, bootstrap, D3 -->
 	<script src="js/jquery.min.js"></script>
@@ -77,10 +116,18 @@
 	<script src="js/crossfilter.js"></script>
 	<script src="js/dc.js"></script>
 	<script src="js/queue.min.js"></script>
+    <script src="//cdn.jsdelivr.net/skrollr/0.6.26/skrollr.min.js"></script>
+    <script src="https://cdn.rawgit.com/Prinzhorn/skrollr-menu/0.1.12/dist/skrollr.menu.min.js"></script>
+    <script src="https://cdn.rawgit.com/lolmaus/jquery.timer-tools/v0.1.0/jquery.timer-tools.min.js"></script>
 
-	<!-- Your implementation -->
-	<!-- <script src="js/main.js"></script> -->
-	<!--<script src="js/barchart.js"></script>-->
-	<script src="js/choropleth.js"></script>
+    <!-- Visualization objects -->
+    <script src="js/choropleth.js"></script>
+    <script src="js/timeline.js"></script>
+    <script src="js/lineChart.js"></script>
+    <script src="js/areaChart.js"></script>
+    <script src="js/smallMultiples.js"></script>
+
+    <!-- Load data, create visualizations -->
+    <script src="js/main.js"></script>
 </body>
 </html>

@@ -1,19 +1,20 @@
 
 body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f7f7f7;
-  text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    background-color: #f7f7f7;
+    text-align: center;
 }
 
 h1 {
-  font-weight: 100;
-  margin-top: 50px;
+    font-weight: 100;
+    margin-top: 50px;
 }
 
 h2 {
-  font-weight: 300;
-  font-size: 18px;
-  margin-bottom: 40px;
+    font-weight: 300;
+    font-size: 18px;
+    margin-bottom: 40px;
 }
 
 .container-fluid {
@@ -28,10 +29,77 @@ h2 {
     font-size: 15px;
 }
 
-#section1 {padding-top:50px;height:1000px;color: #fff; background-color:  #1E88E5;}
-#section11 {padding-top:50px;height:1000px;color: #fff; background-color: #fff; }
-#section2 {padding-top:50px;height:1000px;color: #fff; background-color: #673ab7;}
-#section21 {padding-top:50px;height:1000px;color: #fff; background-color: #fff; }
-#section3 {padding-top:50px;height:1000px;color: #fff; background-color: #ff9800;}
-#section41 {padding-top:50px;height:1000px;color: #fff; background-color: #00bcd4;}
-#section42 {padding-top:50px;height:1000px;color: #fff; background-color: #009688;}
+
+/*==========================================================================*/
+/* Multi-series Area Chart
+/*==========================================================================*/
+.tooltip-placeholder {
+    text-anchor: left;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 15px;
+}
+
+/*==========================================================================*/
+/* Small Multiples
+/*==========================================================================*/
+#previews {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    padding-bottom: 45px;
+}
+
+.preview {
+    position: relative;
+    float: left;
+}
+
+.svg-multiples, .svg-detail {
+    padding: 50px;
+}
+
+.hidden {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+    -webkit-transition: opacity 500ms ease-in;
+    -moz-transition: opacity 500ms ease-in;
+    z-index: 0 !important;
+}
+
+.visible {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+    -webkit-transition: opacity 500ms ease-in;
+    -moz-transition: opacity 500ms ease-in;
+}
+
+.line {
+    fill: none;
+    stroke-width: 1.5px;
+}
+
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-size: 11px;
+}
+
+.mouse_preview {
+    pointer-events: all;
+    cursor: pointer;
+    fill: none;
+}
+
+.label {
+    font-size: 10px;
+}
+
+.detail-label {
+    font-size: 20px;
+}
+

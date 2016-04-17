@@ -1,6 +1,7 @@
 
 // Will be used to the save the loaded JSON data
 var allData = [];
+var household_income_dataset = [];
 var average_wealth_dataset = [];
 
 // Date parser to convert strings to date objects
@@ -11,54 +12,87 @@ var parseYear = d3.time.format("%Y").parse;
 var colorScale = d3.scale.category10();
 
 // Variables for the visualization instances
-var choropleth, timeline, areaChart, lineChart;
+var choropleth, timeline, areaChart, lineChart, smallMultiples;
+
+var formatCurrency = d3.format("$s");
 
 // Start application by loading the data
-//loadData();
-loadAverageWealthData();
+// Start application by loading the data
+queue()
+	.defer(d3.csv,  "data/wid_world_income_distribution.csv")
+	.defer(d3.json, "data/us-states.json")
+	.defer(d3.csv,  "data/average_wealth.csv")
+    .defer(d3.csv,  "data/census_median_household_income.csv")
+	.await(loadData);
 
-function loadData() {
-	d3.json("data/choropleth.json", function(error, jsonData){
-		if(!error){
-			allData = jsonData;
 
-			createVis();
-		}
-	});
+function loadData(error, dataCSV, statesJson, average_wealth_data, household_income_data){
+	if(!error){
+        allData.data = crossfilter(dataCSV);
+
+        //f1 = stateDim.filterExact("AZ").top(Infinity)
+        //f2 = yearDim.filterRange([minYear, maxYear]).top(Infinity)
+
+        // ***********************************************************************
+        // Average Wealth
+        // ***********************************************************************
+        average_wealth_data.forEach(function (d) {
+            d.Year = parseYear(d.Year);
+        });
+
+        // Filter out data before 1980
+        //data = data.filter(function(d){
+        //	return d.Year >= 1980;
+        //});
+
+        // Hand CSV data off to global var
+        average_wealth_dataset = average_wealth_data;
+
+        // ***********************************************************************
+        // Median Household Income
+        // ***********************************************************************
+        household_income_data.forEach(function (d) {
+            d.Year = parseYear(d.Year);
+        });
+
+        // Hand CSV data off to global var
+        household_income_dataset = household_income_data;
+
+        // ***********************************************************************
+        // Create visualization
+        // ***********************************************************************
+        createVis();
+    } else {
+        throw error;
+    }
 }
 
-function loadAverageWealthData() {
-	d3.csv("data/average_wealth.csv", function(data) {
-		console.log("Average Wealth's data loading complete.");
-		//console.log(data);
-
-		data.forEach(function(d) {
-			d.Year = parseYear(d.Year);
-		});
-
-		// Filter out data before 1980
-		//data = data.filter(function(d){
-		//	return d.Year >= 1980;
-		//});
-
-		// Hand CSV data off to global var
-		average_wealth_dataset = data;
-
-		// Update color scale (all column headers except "Year")
-		// Color scale will be used later for the stacked area chart
-		colorScale.domain(d3.keys(average_wealth_dataset[0]).filter(function(key){ return key != "Year"; }));
-		console.log(colorScale.domain());
-
-		// Create visualization
-		createVis();
-	});
-}
 
 function createVis() {
 
-	//timeline = new Timeline("timeline", allData.years)
-	lineChart = new LineChart("line-chart", average_wealth_dataset);
+	// TO-DO: Instantiate visualization objects here
+	// areachart = new ...
+	//areachart = new StackedAreaChart("stacked-area-chart", allData.layers)
+	timeline = new Timeline("timeline", allData);
 	areaChart = new AreaChart("area-chart", average_wealth_dataset);
+    smallMultiples = new SmallMultiples("small-multiples", household_income_dataset);
+
+
+}
+
+
+function brushed() {
+	// Set new domain if brush (user selection) is not empty
+	areachart.x.domain(
+		timeline.brush.empty() ? timeline.x.domain() : timeline.brush.extent()
+	);
+
+	//console.log(areachart);
+	//console.log(timeline);
+
+	// Update focus chart (detailed information)
+	areachart.wrangleData();
+
 }
 
 
