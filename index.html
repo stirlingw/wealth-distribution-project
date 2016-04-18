@@ -75,9 +75,28 @@
     </div>
     <div id="section11" class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-8">
+
                 <!-- Visualization placeholders -->
-                <div id="choropleth"></div>
+                <div id="us-chart">
+                    <strong>National View Of 0.01% Income Percentage by States (color: Percentage Of 0.01%ers)</strong>
+                    <a class="reset" href="javascript:usChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+                    <span class="reset" style="display: none;"> | Current filter: <span class="filter"></span></span>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+            <div class="col-md-4">
+                <div id="year-line-chart">
+                    <strong>Top 0.01% Percentage</strong>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div>
+                    <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+                </div>
             </div>
         </div>
     </div>
@@ -143,7 +162,7 @@
 
     <!-- Visualization objects -->
     <script src="js/choropleth.js"></script>
-    <script src="js/timeline.js"></script>
+    <!--<script src="js/timeline.js"></script>-->
     <script src="js/lineChart.js"></script>
     <script src="js/areaChart.js"></script>
     <script src="js/smallMultiples.js"></script>

@@ -73,7 +73,7 @@ function createVis() {
 	// TO-DO: Instantiate visualization objects here
 	// areachart = new ...
 	//areachart = new StackedAreaChart("stacked-area-chart", allData.layers)
-	timeline = new Timeline("timeline", allData);
+    //	timeline = new Timeline("timeline", allData);
 	areaChart = new AreaChart("area-chart", average_wealth_dataset);
     smallMultiples = new SmallMultiples("small-multiples", household_income_dataset);
 
