@@ -3,7 +3,6 @@ body {
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
     background-color: #f7f7f7;
-    text-align: center;
 }
 
 h1 {
@@ -103,3 +102,20 @@ h2 {
     font-size: 20px;
 }
 
+
+
+.bs-callout+.bs-callout {
+    margin-top: -5px;
+}
+
+.bs-callout {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+
+.bs-callout-info {
+    border-left-color: #1b809e;
+}

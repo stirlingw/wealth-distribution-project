@@ -7,13 +7,14 @@
     <title>The Inequality of Wealth in America</title>
 
 	<link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/dc.css">
 
 
 	<link href='https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700' rel='stylesheet' type='text/css'>
 </head>
-<body data-spy="scroll" data-target=".navbar" data-offset="50">
+<body data-spy="scroll" data-target=".navbar" data-offset="80">
 
     <!-- Start Top Nav -->
     <nav class="navbar navbar-default navbar-primary navbar-fixed-top" role="navigation">
@@ -31,26 +32,26 @@
                     <ul class="nav navbar-nav">
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 1 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#section1">Section 1-1</a></li>
-                                <li><a href="#section11">Section 1-2</a></li>
+                                <li><a href="#section11">Section 1-1</a></li>
+                                <li><a href="#section12">Section 1-2</a></li>
                             </ul>
                         </li>
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 2 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#section2">Section 2-1</a></li>
-                                <li><a href="#section21">Section 2-2</a></li>
+                                <li><a href="#section21">Section 2-1</a></li>
+                                <li><a href="#section22">Section 2-2</a></li>
                             </ul>
                         </li>
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 3 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#section3">Section 3-1</a></li>
-                                <li><a href="#section31">Section 3-2</a></li>
+                                <li><a href="#section31">Section 3-1</a></li>
+                                <li><a href="#section32">Section 3-2</a></li>
                             </ul>
                         </li>
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 4 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#section3">Section 4-1</a></li>
-                                <li><a href="#section31">Section 4-2</a></li>
+                                <li><a href="#section41">Section 4-1</a></li>
+                                <li><a href="#section42">Section 4-2</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -59,27 +60,38 @@
         </div>
     </nav>
     <!-- // End Top Nav -->
-    <div id="section1" class="container-fluid" style="margin-top:50px;">
+    <div class="jumbotron" style="text-align: center;">
+        <h1><i class="fa fa-usd fa-6" aria-hidden="true"></i><i class="fa fa-usd fa-6" aria-hidden="true"></i><i class="fa fa-usd fa-6" aria-hidden="true"></i><i class="fa fa-usd fa-6" aria-hidden="true"></i></h1>
+        <h1>Inequality Of Wealth In America</h1>
+        <p>
+            Stirling Waite (stirlingw@gmail.com),
+            Jee Loong Chew (jee.loong@gmail.com),
+            Kirill B (kirill00k@gmail.com)
+        </p>
+        <p>
+            Our perception of the distribution of wealth in America is not quite accurate,
+            especially in terms of inequalities and the actual real numbers.  Are only the
+            top 10% earners in the economy living “life of luxury”, and the other 90%
+            getting the scraps?  How much money does it take to “feel rich” in America?
+        </p>
+    </div>
+
+    <div id="section11" class="container-fluid">
+        <h1>Top 1 Percent In Each State</h1>
         <div class="row">
             <div class="col-md-12">
-                <p>Jee Loong Chew - jee.loong@gmail.com<br>
-                    Kirill B - kirill00k@gmail.com<br>
-                    Stirling Waite - stirlingw@gmail.com</p>
-
-                <p>Our perception of the distribution of wealth in America is not quite accurate,
-                    especially in terms of inequalities and the actual real numbers.  Are only the
-                    top 10% earners in the economy living “life of luxury”, and the other 90%
-                    getting the scraps?  How much money does it take to “feel rich” in America?</p>
+                <div class="bs-callout bs-callout-info">
+                    The map below shows the where the one percenters live.  Use the line graph on the right to brush and filter for what year you want.
+                </div>
             </div>
         </div>
     </div>
-    <div id="section11" class="container-fluid">
+    <div id="section12" class="container-fluid">
         <div class="row">
             <div class="col-md-8">
-
                 <!-- Visualization placeholders -->
                 <div id="us-chart">
-                    <strong>National View Of 0.01% Income Percentage by States (color: Percentage Of 0.01%ers)</strong>
+                    <strong>National View Of 1% Household Income by States (color: Percentage Of 0.01%ers)</strong>
                     <a class="reset" href="javascript:usChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
                     <span class="reset" style="display: none;"> | Current filter: <span class="filter"></span></span>
 
@@ -90,24 +102,24 @@
             </div>
             <div class="col-md-4">
                 <div id="year-line-chart">
-                    <strong>Top 0.01% Percentage</strong>
+                    <strong>Top 1% Household Income by Year <br>(1913-2014)  <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a></strong>
                     <div class="clearfix"></div>
                 </div>
                 <div class="clearfix"></div>
-                <div>
-                    <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="section2" class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                Setting up for chart 2
             </div>
         </div>
     </div>
     <div id="section21" class="container-fluid">
+        <h1>Average Wealth Distribution Area Chart</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="bs-callout bs-callout-info">
+                    Below you will see the distribution of wealth is so low that the bottom 90% of wealth in America (purple) barely shows up on the charts.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="section22" class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <!-- Visualization placeholders -->
@@ -116,14 +128,19 @@
         </div>
     </div>
 
-    <div id="section4" class="container-fluid">
+    <div id="section31" class="container-fluid">
+        <h1>Average Wealth Distribution Stacked Bar Chart</h1>
         <div class="row">
             <div class="col-md-12">
-                Setting up for chart 4
+                <div class="bs-callout bs-callout-info">
+                    Here is another look at the distribution of wealth. As you can see the top 400 earners in America drastically make way more than the rest of the population.
+                    <br>
+                    So much so that the bottom 95% (95% of American Households) don't even show up.
+                </div>
             </div>
         </div>
     </div>
-    <div id="section41" class="container-fluid">
+    <div id="section32" class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <!-- Visualization placeholders -->
@@ -131,14 +148,17 @@
             </div>
         </div>
     </div>
-    <div id="section3" class="container-fluid">
+    <div id="section41" class="container-fluid">
+        <h1>Average Wealth Distribution Small Multiples Chart</h1>
         <div class="row">
-            <div class="col-md-12">
-                Setting up for chart 3
+            <div class="col-md-12 bs-callout bs-callout-info">
+               Here you can see for each state the dotted red line depicts the national average of household income in America.
+               <br>
+               The solid line represents the average household income of each state.
             </div>
         </div>
     </div>
-    <div id="section31" class="container-fluid">
+    <div id="section42" class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <!-- Visualization placeholders -->
@@ -167,6 +187,7 @@
     <script src="js/areaChart.js"></script>
     <script src="js/smallMultiples.js"></script>
     <script src="js/barchart.js"></script>
+
     <!-- Load data, create visualizations -->
     <script src="js/main.js"></script>
 </body>

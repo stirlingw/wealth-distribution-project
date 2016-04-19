@@ -22,7 +22,7 @@ AreaChart.prototype.initVis = function(){
 	var vis = this;
 
 	vis.margin = { top: 40, right: 0, bottom: 60, left: 100 };
-	vis.width = 800 - vis.margin.left - vis.margin.right;
+	vis.width = 1200 - vis.margin.left - vis.margin.right;
 	vis.height = 800 - vis.margin.top - vis.margin.bottom;
 
 	// SVG drawing area
