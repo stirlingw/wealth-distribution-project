@@ -48,9 +48,6 @@ BarChart.prototype.initVis = function(){
     vis.color = d3.scale.ordinal()
         .range(["yellow", "white", "#8a89a6", "#7b6888", "#6b486b", "red",  "green", "blue"]);
 
-
-
-
     vis.labelVar = 'year';
     vis.varNames = d3.keys(vis.data[0])
         .filter(function (key) { return key !== vis.labelVar;});

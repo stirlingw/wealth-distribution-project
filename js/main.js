@@ -34,9 +34,15 @@ function loadData(error, dataCSV, statesJson, average_wealth_data, household_inc
 	    console.log(top_incomes[0]["Top 5% (95th-100th percentiles)"]);
 
         allData.data = crossfilter(dataCSV);
+        allData.top_incomes = crossfilter(top_incomes);
 
-        //f1 = stateDim.filterExact("AZ").top(Infinity)
-        //f2 = yearDim.filterRange([minYear, maxYear]).top(Infinity)
+        allData.yearDim = allData.top_incomes.dimension(function (d) { return d["Year"]});
+        allData.statesDim = allData.top_incomes.dimension(function (d) { return d["State Abv"]});
+        allData.yearFilter = allData.yearDim.filterRange([2011, 2012]).top(Infinity)
+        console.log(allData.yearFilter);
+
+        allData.statesFilter = allData.statesDim.filterExact("AZ").top(Infinity)
+        console.log(allData.statesFilter);
 
         // ***********************************************************************
         // Average Wealth
@@ -96,7 +102,6 @@ function loadData(error, dataCSV, statesJson, average_wealth_data, household_inc
 function createVis() {
 
 	// TO-DO: Instantiate visualization objects here
-	// areachart = new ...
 	//areachart = new StackedAreaChart("stacked-area-chart", allData.layers)
     //	timeline = new Timeline("timeline", allData);
 	areaChart = new AreaChart("area-chart", average_wealth_dataset);
