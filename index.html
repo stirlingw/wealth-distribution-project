@@ -33,6 +33,10 @@
                         <li><a href="#section21">Section 2</a></li>
                         <li><a href="#section31">Section 3</a></li>
                         <li><a href="#section41">Section 4</a></li>
+
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a data-toggle="modal" href="#myModal">About</a></li>
                     </ul>
                 </div>
             </div>
@@ -150,6 +154,27 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Box-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">About This Web Application</h4>
+                </div>
+                <div class="modal-body">
+                    <h4 class="modal-title">The Reason</h4>
+                    <p>These interactive graphs were created for a project. The purpose was to practice D3 and also to get a sense of what might be reasonable to present to key stakeholders.
+                    <p>- Team Inequality of Wealth in America</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 	<!-- Load JS libraries: jQuery, bootstrap, D3 -->
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>

@@ -25,11 +25,14 @@ queue()
 	.defer(d3.csv,  "data/average_wealth.csv")
     .defer(d3.csv,  "data/census_median_household_income.csv")
     .defer(d3.csv,  "data/berkeley-zuckman-average-real-wealth-per-family-data.csv")
+    .defer(d3.csv,  "data/top-incomes-since-1917_vs2012.csv")
 	.await(loadData);
 
 
-function loadData(error, dataCSV, statesJson, average_wealth_data, household_income_data, average_real_wealth_per_family_data){
+function loadData(error, dataCSV, statesJson, average_wealth_data, household_income_data, average_real_wealth_per_family_data, top_incomes){
 	if(!error){
+	    console.log(top_incomes[0]["Top 5% (95th-100th percentiles)"]);
+
         allData.data = crossfilter(dataCSV);
 
         //f1 = stateDim.filterExact("AZ").top(Infinity)
@@ -117,7 +120,7 @@ function brushed() {
 
 }
 
-
+/*http://www.bootply.com/103783*/
 var jumboHeight = $('.jumbotron').outerHeight();
 function parallax(){
     var scrolled = $(window).scrollTop();
