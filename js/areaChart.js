@@ -9,7 +9,7 @@ AreaChart = function(_parentElement, _data){
 	this.displayData = []; // see data wrangling
 
 	// DEBUG RAW DATA
-	console.log(this.areaData);
+	//console.log(this.areaData);
 
 	this.initVis();
 }
@@ -73,7 +73,7 @@ AreaChart.prototype.initVis = function(){
 	vis.colorScale.domain(d3.keys(vis.areaData[0]).filter(function (key) {
 		return key != "Year";
 	}));
-	console.log(vis.colorScale.domain());
+	//console.log(vis.colorScale.domain());
 
 	// Get all categories
 	var dataCategories = vis.colorScale.domain();
@@ -87,7 +87,7 @@ AreaChart.prototype.initVis = function(){
 			})
 		};
 	});
-	console.log(vis.transposedData);
+	//console.log(vis.transposedData);
 
 	// Area chart's layout
 	vis.area = d3.svg.area()
@@ -120,7 +120,7 @@ AreaChart.prototype.wrangleData = function(){
 	var vis = this;
 
 	//vis.displayData = vis.transposedData;
-	//console.log(vis.displayData);
+	////console.log(vis.displayData);
 
 	if (vis.filter == "") {
 		// In the first step no data wrangling/filtering needed
@@ -176,7 +176,7 @@ AreaChart.prototype.updateVis = function(){
 		})
 		.on("click", function(d) {
 			vis.filter = (vis.filter == d.name) ? "" : d.name;
-			console.log(vis.filter);
+			//console.log(vis.filter);
 			vis.wrangleData();
 		});
 

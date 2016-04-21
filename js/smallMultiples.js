@@ -18,7 +18,7 @@ SmallMultiples = function(_parentElement, _data){
 	this.displayData = []; // see data wrangling
 
 	// DEBUG RAW DATA
-	console.log("multiplesData", this.multiplesData);
+	//console.log("multiplesData", this.multiplesData);
 
 	this.initVis();
 }
@@ -65,7 +65,7 @@ SmallMultiples.prototype.initVis = function(){
 	vis.colorScale.domain(d3.keys(vis.multiplesData[0]).filter(function (key) {
 		return key != "Year";
 	}));
-	console.log(vis.colorScale.domain());
+	//console.log(vis.colorScale.domain());
 
 	// Get all categories
 	var dataCategories = vis.colorScale.domain();
@@ -79,7 +79,7 @@ SmallMultiples.prototype.initVis = function(){
 			})
 		};
 	});
-	console.log("seriesData", vis.seriesData);
+	//console.log("seriesData", vis.seriesData);
 
 	// Line chart's function
 	vis.line = d3.svg.line()
@@ -157,11 +157,11 @@ SmallMultiples.prototype.wrangleData = function(){
 
 	// Filter for "United States"
 	vis.usData = vis.seriesData.filter(function(d){ return d.name == "United States"; });
-	console.log("usData", vis.usData);
+	//console.log("usData", vis.usData);
 
 	// Filter out "United States"
 	vis.seriesData = vis.seriesData.filter(function(d){ return d.name != "United States"; });
-	console.log("seriesData", vis.seriesData);
+	//console.log("seriesData", vis.seriesData);
 
 	// Update the visualization
 	vis.updateVis();

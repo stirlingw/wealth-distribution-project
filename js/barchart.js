@@ -4,7 +4,7 @@ BarChart = function(_parentElement, _data){
 	this.displayData = []; // see data wrangling
 
 	// DEBUG RAW DATA
-	console.log(this.data);
+	//console.log(this.data);
 
 	this.initVis();
 }
@@ -56,7 +56,7 @@ BarChart.prototype.initVis = function(){
         .filter(function (key) { return key !== vis.labelVar;});
 
     vis.color.domain(vis.varNames);
-    console.log(vis.varNames);
+    //console.log(vis.varNames);
 
     vis.data.forEach(function (d) {
         var y0 = 0;
