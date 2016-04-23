@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/dc.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
 	<link href='https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700' rel='stylesheet' type='text/css'>
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="50">
@@ -60,7 +61,9 @@
         </div>
     </div>
 
+
     <div id="section11" class="container-fluid">
+
         <h1>Top 1 Percent In Each State</h1>
         <div class="row">
             <div class="col-md-12">
@@ -72,7 +75,15 @@
     </div>
     <div id="section12" class="container-fluid">
         <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-2"><input type="text" value="type something" id="amount"></div>
+                <div class="col-md-10"><div id="slider-range-max"></div></div>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
             <div class="col-md-8">
+
                 <!-- Visualization placeholders -->
                 <div id="us-chart">
                     <strong>National View Of 1% Household Income by States (color: Percentage Of 0.01%ers)</strong>
@@ -181,6 +192,7 @@
 	<script src="js/crossfilter.js"></script>
 	<script src="js/dc.js"></script>
 	<script src="js/queue.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
 
     <!-- Visualization objects -->
     <script src="js/choropleth.js"></script>
@@ -189,6 +201,7 @@
     <script src="js/areaChart.js"></script>
     <script src="js/smallMultiples.js"></script>
     <script src="js/barchart.js"></script>
+    <script src="js/bar-slider.js"></script>
 
     <!-- Load data, create visualizations -->
     <script src="js/main.js"></script>

@@ -31,18 +31,9 @@ queue()
 
 function loadData(error, dataCSV, statesJson, average_wealth_data, household_income_data, average_real_wealth_per_family_data, top_incomes){
 	if(!error){
-	    console.log(top_incomes[0]["Top 5% (95th-100th percentiles)"]);
-
         allData.data = crossfilter(dataCSV);
         allData.top_incomes = crossfilter(top_incomes);
-
-        allData.yearDim = allData.top_incomes.dimension(function (d) { return d["Year"]});
-        allData.statesDim = allData.top_incomes.dimension(function (d) { return d["State Abv"]});
-        allData.yearFilter = allData.yearDim.filterRange([2011, 2012]).top(Infinity)
-        console.log(allData.yearFilter);
-
-        allData.statesFilter = allData.statesDim.filterExact("AZ").top(Infinity)
-        console.log(allData.statesFilter);
+        allData.statesJson = statesJson;
 
         // ***********************************************************************
         // Average Wealth
@@ -107,6 +98,7 @@ function createVis() {
 	areaChart = new AreaChart("area-chart", average_wealth_dataset);
     smallMultiples = new SmallMultiples("small-multiples", household_income_dataset);
     barChart = new BarChart("bar-chart", average_real_wealth_per_family_dataset);
+    choropleth = new Choropleth("choropleth", allData);
 
 }
 

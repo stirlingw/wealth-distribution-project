@@ -1,4 +1,3 @@
-
 /*
 Year,
 State,
@@ -6,51 +5,82 @@ Income distribution (bottom 90, top 10, top 5, top 1, top 0.01)
 Income
 */
 
-var numberFormat = d3.format(".2f");
 
-//http://www.epi.org/publication/income-inequality-by-state-1917-to-2012/
+/*
+ * Timeline - Object constructor function
+ * @param _parentElement 	-- the HTML element in which to draw the visualization
+ * @param _data						-- the
+ */
+
+Choropleth = function(_parentElement, _data){
+	this.parentElement = _parentElement;
+	this.data = _data;
+	// No data wrangling, no update sequence
+	this.initVis();
+}
 
 
-var usChart = dc.geoChoroplethChart("#us-chart");
-var yearLineChart = dc.lineChart("#year-line-chart");
-//var industryChart = dc.bubbleChart("#industry-chart");
-//var roundChart = dc.bubbleChart("#round-chart");
+/*
+ * Initialize visualization (static content, e.g. SVG area or axes)
+ */
+Choropleth.prototype.initVis = function(){
+    var vis = this;
+    var numberFormat = d3.format(".2f");
 
-queue()
-	.defer(d3.csv,  "data/vc.csv")
-	.defer(d3.csv,  "data/wid_world_income_distribution.csv")
-    .defer(d3.json, "data/us-states.json")
-    .await(createVisualization);
-
-function createVisualization(error, dataCSV, wwiData, statesJson){
-    var data = crossfilter(dataCSV);
-    var wd = crossfilter(wwiData);
-
-    var yearDim = wd.dimension(function (d) { return d["year"]});
-    //var yearFilterData = yearDim.filterExact(2012).top(Infinity)
-
-    var states = wd.dimension(function (d) {
-        return d["state_abv"];
+    $( "#slider-range-max" ).slider({
+        range: "max",
+        min: 1,
+        max: 1200000,
+        value: 36000,
+        slide: function( event, ui ) {
+            console.log(ui.value);
+          $( "#amount" ).val( ui.value );
+        }
     });
+    $( "#amount" ).val( $( "#slider-range-max" ).slider( "value" ) );
+
+    vis.usChart = dc.geoChoroplethChart("#us-chart");
+    //vis.yearLineChart = dc.lineChart("#year-line-chart");
+
+    //http://www.epi.org/publication/income-inequality-by-state-1917-to-2012/
+    this.wrangleData();
+}
+
+
+Choropleth.prototype.wrangleData = function(){
+    var vis = this;
+    console.log(vis.data.top_incomes);
+    vis.data.yearDim = vis.data.top_incomes.dimension(function (d) { return d["Year"]});
+    vis.data.statesDim = vis.data.top_incomes.dimension(function (d) { return d["State Abv"]});
+    vis.data.yearFilter = vis.data.yearDim.filterExact(2012).top(Infinity)
+
+
+//    var ymtotal = yearDim.group().reduceSum(function(d) {return d.value;});
+//    var minYear = yearDim.bottom(1)[0].year;
+//    var maxYear = yearDim.top(1)[0].year;
+//    console.log(vis.data.yearFilter);
+
+    // allData.statesFilter = allData.statesDim.filterExact("AZ").top(Infinity)
+    // console.log(allData.statesFilter);
+    // var yearFilterData = yearDim.filterExact(2012).top(Infinity)
 
     // (d["top_0.01%_income_share_including_capital_gains"] / 5.81) * 1000;
-    var stateRaisedSum = states.group().reduceSum(function (d) {
-        return d["top_0.01%_income_share_including_capital_gains"]
+    vis.data.stateRaisedSum = vis.data.statesDim.group().reduceSum(function (d) {
+        return d["0-90th percentiles"]
     });
 
-    //    var ymtotal = yearDim.group().reduceSum(function(d) {return d.value;});
-    //    var stateDim = vis.dimension(function (d) { return parseDate(d["state_abv"])});
-    //    var stateFilter = stateDim.filterExact("US").top(Infinity)
-    //    var parseDate = d3.time.format("%Y").parse;
+    // var ymtotal = yearDim.group().reduceSum(function(d) {return d.value;});
+    // var stateDim = vis.dimension(function (d) { return parseDate(d["state_abv"])});
+    // var stateFilter = stateDim.filterExact("US").top(Infinity)
+    // var parseDate = d3.time.format("%Y").parse;
 
-
-    var yearGroup = yearDim.group().reduce(
+    vis.data.yearGroup = vis.data.yearDim.group().reduce(
         function reduceAdd(p, v) {
-            p.top001 = v["top_0.01%_income_share_including_capital_gains"]++;
+            p.top001 = v["0-90th percentiles"]++;
             return p;
         },
         function reduceRemove(p, v) {
-            p.top001 = v["top_0.01%_income_share_including_capital_gains"]--;
+            p.top001 = v["0-90th percentiles"]--;
             return p;
         },
         function reduceInitial() {
@@ -60,39 +90,50 @@ function createVisualization(error, dataCSV, wwiData, statesJson){
 
         }
     );
+    this.updateVis();
+}
 
-    usChart.width(990)
-            .height(500)
-            .dimension(states)
-            .group(stateRaisedSum)
-            .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
-            .colorDomain([0, 500])
-            .colorCalculator(function (d) { return d ? usChart.colors()(d) : '#ccc'; })
-            .overlayGeoJson(statesJson.features, "state", function (d) {
-                return d.properties.name;
-            })
-            .title(function (d) {
-                return "State: " + d.key + "\nTop 0.01% Percentage: " + numberFormat(d.value ? d.value : 0) + "%";
-            });
+Choropleth.prototype.updateVis = function(){
+    var vis = this;
+    vis.data.numberFormat = d3.format(".2f");
 
-    yearLineChart
-        .width(360)
-        .height(150)
-        .margins({top: 10, right: 50, bottom: 30, left: 60})
-        .dimension(yearDim)
-        .group(yearGroup)
-        .valueAccessor(function(d) {
-            return d.value.top001;
-        })
-        .x(d3.scale.linear().domain([1913, 2012]))
-        .renderHorizontalGridLines(true)
-        .elasticY(true)
-        .brushOn(true)
-        .title(function(d){
-            return d.key + "\nTop 0.01% Percentage: " + Math.round(d.value.top001);
-        })
-        .xAxis().ticks(5).tickFormat(d3.format("d"));
+    var wyoming = vis.data.yearDim.top(Infinity)[5]
+    console.log(vis.data.yearDim.top(Infinity)[5]);
+    console.log((wyoming["Total income (1000s)"] * 1000) / wyoming["Number of tax units"]);
+
+    vis.usChart.width(990)
+                .height(500)
+                .dimension(vis.data.statesDim)
+                .group(vis.data.stateRaisedSum)
+                .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
+                .colorDomain([0, 100000])
+                .colorCalculator(function (d) { return d ? vis.usChart.colors()(d) : '#ccc'; })
+                .overlayGeoJson(vis.data.statesJson.features, "state", function (d) {
+                    return d.properties.name;
+                })
+                .title(function (d) {
+                    return "State: " + d.key + "\n0-90th percentiles " + vis.data.numberFormat(d.value ? d.value : 0) + "%";
+                });
+
+//    vis.yearLineChart
+//        .width(380)
+//        .height(200)
+//        .margins({top: 10, right: 70, bottom: 30, left: 100})
+//        .dimension(vis.data.yearDim)
+//        .group(vis.data.yearGroup)
+//        .valueAccessor(function(d) {
+//            return d.value.top001;
+//        })
+//        .x(d3.scale.linear().domain([1913, 2012]))
+//        .renderHorizontalGridLines(true)
+//        .elasticY(true)
+//        .brushOn(true)
+//        .title(function(d){
+//            return d.key + "\nTop 0.01% (99.99th-100th percentiles) " + Math.round(d.value.top001);
+//        })
+//        .xAxis().ticks(5).tickFormat(d3.format("d"));
 
 
     dc.renderAll();
 }
+
