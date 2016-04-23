@@ -4,6 +4,7 @@ var allData = [];
 var household_income_dataset = [];
 var average_wealth_dataset = [];
 var average_real_wealth_per_family_dataset = [];
+var top_income_dataset = [];
 
 // Date parser to convert strings to date objects
 var parseDate = d3.time.format("%Y").parse;
@@ -31,9 +32,18 @@ queue()
 
 function loadData(error, dataCSV, statesJson, average_wealth_data, household_income_data, average_real_wealth_per_family_data, top_incomes){
 	if(!error){
+	    console.log(top_incomes[0]["Top 5% (95th-100th percentiles)"]);
+
         allData.data = crossfilter(dataCSV);
         allData.top_incomes = crossfilter(top_incomes);
-        allData.statesJson = statesJson;
+
+        allData.yearDim = allData.top_incomes.dimension(function (d) { return d["Year"]});
+        allData.statesDim = allData.top_incomes.dimension(function (d) { return d["State Abv"]});
+        allData.yearFilter = allData.yearDim.filterRange([2011, 2012]).top(Infinity)
+        console.log(allData.yearFilter);
+
+        allData.statesFilter = allData.statesDim.filterExact("AZ").top(Infinity)
+        console.log(allData.statesFilter);
 
         // ***********************************************************************
         // Average Wealth
@@ -65,20 +75,21 @@ function loadData(error, dataCSV, statesJson, average_wealth_data, household_inc
         // ***********************************************************************
         average_real_wealth_per_family_data.forEach(function (d) {
             d.year = +d.year;
-            d.bottom_90 = +d.bottom_90;
-            d.top_10 = +d.top_10;
-            d.top_05 = +d.top_05;
-            d.top_01 = +d.top_01;
-            d.top_005 = +d.top_005;
-            d.top_001 = +d.top_001;
-            d.top_0001 = +d.top_0001;
-
+            d["Bottom 90%"] = +d["Bottom 90%"];
+            d["Top 10%"] = +d["Top 10%"];
+            d["Top 5%"] = +d["Top 5%"];
+            d["Top 1%"] = +d["Top 1%"];
+            d["Top .5%"] = +d["Top .5%"];
+            d["Top .1%"] = +d["Top .1%"];
+            d["Top .01%"] = +d["Top .01%"];
         });
+
+
 
    
         // Hand CSV data off to global var
         average_real_wealth_per_family_dataset = average_real_wealth_per_family_data;
-        
+
 
         // ***********************************************************************
         // Create visualization
@@ -98,7 +109,6 @@ function createVis() {
 	areaChart = new AreaChart("area-chart", average_wealth_dataset);
     smallMultiples = new SmallMultiples("small-multiples", household_income_dataset);
     barChart = new BarChart("bar-chart", average_real_wealth_per_family_dataset);
-    choropleth = new Choropleth("choropleth", allData);
 
 }
 
