@@ -36,14 +36,7 @@ function loadData(error, dataCSV, statesJson, average_wealth_data, household_inc
 
         allData.data = crossfilter(dataCSV);
         allData.top_incomes = crossfilter(top_incomes);
-
-        allData.yearDim = allData.top_incomes.dimension(function (d) { return d["Year"]});
-        allData.statesDim = allData.top_incomes.dimension(function (d) { return d["State Abv"]});
-        allData.yearFilter = allData.yearDim.filterRange([2011, 2012]).top(Infinity)
-        console.log(allData.yearFilter);
-
-        allData.statesFilter = allData.statesDim.filterExact("AZ").top(Infinity)
-        console.log(allData.statesFilter);
+        allData.statesJson = statesJson;
 
         // ***********************************************************************
         // Average Wealth

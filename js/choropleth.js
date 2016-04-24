@@ -99,7 +99,7 @@ Choropleth.prototype.updateVis = function(){
 
     var wyoming = vis.data.yearDim.top(Infinity)[5]
     console.log(vis.data.yearDim.top(Infinity)[5]);
-    console.log((wyoming["Total income (1000s)"] * 1000) / wyoming["Number of tax units"]);
+    //console.log((wyoming["Total income (1000s)"] * 1000) / wyoming["Number of tax units"]);
 
     vis.usChart.width(990)
                 .height(500)
