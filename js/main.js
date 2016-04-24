@@ -63,6 +63,7 @@ function loadData(error, dataCSV, statesJson, average_wealth_data, household_inc
         // ***********************************************************************
         // Average real wealth per family
         // ***********************************************************************
+        var all = []
         average_real_wealth_per_family_data.forEach(function (d) {
             d.year = +d.year;
             d.bottom_90 = +d.bottom_90;
@@ -72,10 +73,7 @@ function loadData(error, dataCSV, statesJson, average_wealth_data, household_inc
             d.top_005 = +d.top_005;
             d.top_001 = +d.top_001;
             d.top_0001 = +d.top_0001;
-
         });
-
-   
         // Hand CSV data off to global var
         average_real_wealth_per_family_dataset = average_real_wealth_per_family_data;
         
