@@ -4,7 +4,7 @@ BarChart = function(_parentElement, _data){
 	this.displayData = []; // see data wrangling
 
 	// DEBUG RAW DATA
-	//console.log(this.data);
+	console.log(this.data);
 
 	this.initVis();
 }
@@ -42,11 +42,15 @@ BarChart.prototype.initVis = function(){
     vis.yAxis = d3.svg.axis()
         .scale(vis.y)
         .orient("left")
-        .ticks(25, "s");
+        .ticks(10, "s");
+
+
+
 
 
     vis.color = d3.scale.ordinal()
-        .range(["yellow", "white", "#8a89a6", "#7b6888", "#6b486b", "red",  "green", "blue"]);
+        .range(["yellow", "white", "blue", "purple", "orange", "red",  "green"]);
+
 
     vis.labelVar = 'year';
     vis.varNames = d3.keys(vis.data[0])
@@ -69,9 +73,13 @@ BarChart.prototype.initVis = function(){
     });
 
     vis.data.sort(function(a, b) { return b.total - a.total; });
+    vis.data.sort(function(a, b) { return b.year - a.year; });
+
+
 
     vis.x.domain(vis.data.map(function (d) { return d.year; }));
     vis.y.domain([0, d3.max(vis.data, function (d) { return d.total; })]);
+
 
 
     vis.selection = vis.svg.selectAll(".series")
@@ -82,6 +90,10 @@ BarChart.prototype.initVis = function(){
             return "translate(" + vis.x(d.year) + ",0)";
         });
 
+
+
+
+
     vis.selection.selectAll("rect")
         .data(function (d) { return d.mapping; })
         .enter().append("rect")
@@ -89,7 +101,11 @@ BarChart.prototype.initVis = function(){
         .attr("y", function (d) { return vis.y(d.y1); })
         .attr("height", function (d) { return vis.y(d.y0) - vis.y(d.y1); })
         .style("fill", function (d) { return vis.color(d.name); })
-        .style("stroke", "grey");
+        .style("stroke", "grey")
+        .on('mouseover', function(d) {
+            shoeme();)
+        .on('mouseout', "");
+
 
     vis.legend = vis.svg.selectAll(".legend")
         .data(vis.varNames.slice().reverse())
@@ -116,7 +132,13 @@ BarChart.prototype.initVis = function(){
     vis.svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + vis.height + ")")
-        .call(vis.xAxis);
+        .call(vis.xAxis)
+        .selectAll("text")
+        .attr("y", 0)
+        .attr("x", 9)
+        .attr("dy", ".35em")
+        .attr("transform", "rotate(90)")
+        .style("text-anchor", "start");
 
     vis.svg.append("g")
         .attr("class", "y axis")
@@ -130,6 +152,9 @@ BarChart.prototype.initVis = function(){
 
 
 
+    // TO-DO: (Filter, aggregate, modify data)
+    vis.wrangleData();
+
 }
 
 /*
@@ -137,6 +162,7 @@ BarChart.prototype.initVis = function(){
  */
 BarChart.prototype.wrangleData = function(){
 	var vis = this;
+
 
 
 	// Update the visualization
@@ -149,6 +175,10 @@ BarChart.prototype.wrangleData = function(){
  */
 BarChart.prototype.updateVis = function(){
 	var vis = this;
+
+
+
+
 
 
 }
