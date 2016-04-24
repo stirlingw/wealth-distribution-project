@@ -69,17 +69,25 @@ SmallMultiples.prototype.initVis = function(){
 
 	// Get all categories
 	var dataCategories = vis.colorScale.domain();
+	//console.log("dataCategories", dataCategories);
 
 	// Rearrange data into series
-	vis.seriesData = dataCategories.map(function (name) { //D
+	vis.seriesData = dataCategories.map(function (name) {
+
+		var tmpState = us_states.filter(function (d) {
+			return d["name"] == name;
+		});
+		//console.log("tmpState", tmpState);
+
 		return {
 			name: name,
+			abbreviation: tmpState[0]["abbreviation"],
 			values: vis.multiplesData.map(function (d) {
-				return {Year: d["Year"], Median_Household_Income: +d[name]};
+				return {Year: d["Year"], Median_Household_Income: d[name]};
 			})
 		};
 	});
-	//console.log("seriesData", vis.seriesData);
+	console.log("seriesData", vis.seriesData);
 
 	// Line chart's function
 	vis.line = d3.svg.line()
@@ -201,6 +209,9 @@ SmallMultiples.prototype.updateVis = function(){
 
 	var svgs = pre.append('svg')
 		.attr("class", "svg-multiples")
+		.attr("id", function (d) {
+			return "sm_" + d["abbreviation"];
+		})
 		.attr("width", vis.width + vis.margin.left + vis.margin.right)
 		.attr("height", vis.height + vis.margin.top + vis.margin.bottom)
 		.attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
@@ -233,12 +244,12 @@ SmallMultiples.prototype.updateVis = function(){
 
 	// Axes
 	svgs.append("g")
-		.attr("class", "x axis")
+		.attr("class", "x-axis axis")
 		.attr("transform", "translate(0," + vis.height + ")")
 		.call(vis.xAxis);
 
 	svgs.append("g")
-		.attr("class", "y axis")
+		.attr("class", "y-axis axis")
 		.call(vis.yAxis);
 
 	// Title
@@ -361,3 +372,14 @@ function toggleHidden(show) {
 	d3.select("#previews").classed("hidden", show).classed("visible", !show);
 	return d3.select("#detail").classed("hidden", !show).classed("visible", show);
 };
+
+function checkSM(val) {
+
+	var tmpSM = "#sm_" + val.value;
+
+	if (val.checked == true) {
+		d3.select(tmpSM).classed("hidden", true).classed("visible", false);
+	} else {
+		d3.select(tmpSM).classed("hidden", false).classed("visible", true);
+	}
+}
