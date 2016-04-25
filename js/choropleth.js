@@ -49,10 +49,20 @@ Choropleth.prototype.initVis = function(){
 
 Choropleth.prototype.wrangleData = function(){
     var vis = this;
-    console.log(vis.data.top_incomes);
-    vis.data.yearDim = vis.data.top_incomes.dimension(function (d) { return d["Year"]});
-    vis.data.statesDim = vis.data.top_incomes.dimension(function (d) { return d["State Abv"]});
-    vis.data.yearFilter = vis.data.yearDim.filterExact(2012).top(Infinity)
+    vis.data.nyStatesDim = vis.data.ny_times_data.dimension(function (d) { return d["state_abv"]});
+    vis.data.stateCutsGroup = vis.data.ny_times_data.dimension(function (d) {
+        return d["cuts"]
+    });
+
+    vis.data.stateGroup = vis.data.nyStatesDim.group().reduceSum(function(d) {
+        return d["cuts"][50];
+    });
+
+
+//    console.log(vis.data.nyCutsDim.top(Infinity))
+//    vis.data.yearDim = vis.data.top_incomes.dimension(function (d) { return d["Year"]});
+//    vis.data.statesDim = vis.data.top_incomes.dimension(function (d) { return d["State Abv"]});
+//    vis.data.yearFilter = vis.data.yearDim.filterExact(2012).top(Infinity)
 
 
 //    var ymtotal = yearDim.group().reduceSum(function(d) {return d.value;});
@@ -65,55 +75,60 @@ Choropleth.prototype.wrangleData = function(){
     // var yearFilterData = yearDim.filterExact(2012).top(Infinity)
 
     // (d["top_0.01%_income_share_including_capital_gains"] / 5.81) * 1000;
-    vis.data.stateRaisedSum = vis.data.statesDim.group().reduceSum(function (d) {
-        return d["0-90th percentiles"]
-    });
+//    vis.data.stateRaisedSum = vis.data.statesDim.group().reduceSum(function (d) {
+//        return d["0-90th percentiles"]
+//    });
 
     // var ymtotal = yearDim.group().reduceSum(function(d) {return d.value;});
     // var stateDim = vis.dimension(function (d) { return parseDate(d["state_abv"])});
     // var stateFilter = stateDim.filterExact("US").top(Infinity)
     // var parseDate = d3.time.format("%Y").parse;
 
-    vis.data.yearGroup = vis.data.yearDim.group().reduce(
-        function reduceAdd(p, v) {
-            p.top001 = v["0-90th percentiles"]++;
-            return p;
-        },
-        function reduceRemove(p, v) {
-            p.top001 = v["0-90th percentiles"]--;
-            return p;
-        },
-        function reduceInitial() {
-            return {
-                top001: 0
-            }
-
-        }
-    );
+//    vis.data.yearGroup = vis.data.yearDim.group().reduce(
+//        function reduceAdd(p, v) {
+//            p.top001 = v["0-90th percentiles"]++;
+//            return p;
+//        },
+//        function reduceRemove(p, v) {
+//            p.top001 = v["0-90th percentiles"]--;
+//            return p;
+//        },
+//        function reduceInitial() {
+//            return {
+//                top001: 0
+//            }
+//
+//        }
+//    );
     this.updateVis();
 }
 
 Choropleth.prototype.updateVis = function(){
     var vis = this;
-    vis.data.numberFormat = d3.format(".2f");
+    vis.data.numberFormat = function(num){
+        format = d3.format("0,000");
+        formattedX = "$" + format(num) + ".00";
+        return formattedX;
+    }
 
-    var wyoming = vis.data.yearDim.top(Infinity)[5]
-    console.log(vis.data.yearDim.top(Infinity)[5]);
-    //console.log((wyoming["Total income (1000s)"] * 1000) / wyoming["Number of tax units"]);
-
+//    var wyoming = vis.data.yearDim.top(Infinity)[5]
+//    console.log(vis.data.yearDim.top(Infinity)[5]);
+//    //console.log((wyoming["Total income (1000s)"] * 1000) / wyoming["Number of tax units"]);
     vis.usChart.width(990)
                 .height(500)
-                .dimension(vis.data.statesDim)
-                .group(vis.data.stateRaisedSum)
+                .dimension(vis.data.nyStatesDim)
+                .group(vis.data.stateGroup)
                 .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
-                .colorDomain([0, 100000])
+                .colorDomain([25000, 65000])
                 .colorCalculator(function (d) { return d ? vis.usChart.colors()(d) : '#ccc'; })
                 .overlayGeoJson(vis.data.statesJson.features, "state", function (d) {
                     return d.properties.name;
                 })
                 .title(function (d) {
-                    return "State: " + d.key + "\n0-90th percentiles " + vis.data.numberFormat(d.value ? d.value : 0) + "%";
+                    return "State: " + d.key + "\nMedian Household Income: " + vis.data.numberFormat(d.value ? d.value : 0);
                 });
+
+    //console.log(vis.usChart.filter());
 
 //    vis.yearLineChart
 //        .width(380)
