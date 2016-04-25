@@ -103,10 +103,29 @@ h2 {
     font-size: 20px;
 }
 
+/*==========================================================================*/
+/* Checkboxes for Small Multiples
+/*==========================================================================*/
 th {
-    width: 200px;
+    width: 160px;
 }
 
+tr {
+    height: 30px;
+}
+
+td {
+    text-align: left;
+    vertical-align: middle;
+}
+
+input[type=checkbox] {
+    margin-right:3px;
+}
+
+label {
+    margin-right:5px;
+}
 
 .bs-callout+.bs-callout {
     margin-top: -5px;

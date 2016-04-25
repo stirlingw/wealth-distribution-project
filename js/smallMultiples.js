@@ -371,15 +371,15 @@ SmallMultiples.prototype.updateVis = function(){
 function toggleHidden(show) {
 	d3.select("#previews").classed("hidden", show).classed("visible", !show);
 	return d3.select("#detail").classed("hidden", !show).classed("visible", show);
-};
+}
 
 function checkSM(val) {
-
 	var tmpSM = "#sm_" + val.value;
+	d3.select(tmpSM).classed("hidden", !(val.checked)).classed("visible", (val.checked));
+}
 
-	if (val.checked == true) {
-		d3.select(tmpSM).classed("hidden", true).classed("visible", false);
-	} else {
-		d3.select(tmpSM).classed("hidden", false).classed("visible", true);
-	}
+function checkmultipleSM(val) {
+	var tmpDivision = "." + val.value;
+	d3.selectAll(tmpDivision).property('checked', val.checked); // Set checkboxes
+	$(tmpDivision).trigger('change'); // Manual trigger using jQuery
 }
