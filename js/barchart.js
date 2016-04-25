@@ -4,10 +4,12 @@ BarChart = function(_parentElement, _data){
 	this.displayData = []; // see data wrangling
 
 	// DEBUG RAW DATA
-	//console.log(this.data);
+	console.log(this.data);
 
 	this.initVis();
 }
+
+
 
 BarChart.prototype.initVis = function(){
 
@@ -25,13 +27,6 @@ BarChart.prototype.initVis = function(){
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
 
-
-//    vis.tip = d3.tip()
-//      .attr('class', 'd3-tip')
-//      .offset([-10, 0])
-//      .html(function(d) {
-//        return "<strong>Frequency:</strong> <span style='color:red'>" + d.frequency + "</span>";
-//      })
 
     // Our X scale
     vis.x = d3.scale.ordinal()
@@ -53,6 +48,12 @@ BarChart.prototype.initVis = function(){
         .ticks(10, "s");
 
 
+    vis.tip = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-10, 0])
+        .html(function(d) {
+        return "<strong>Year :</strong> <span style='color:red'>" + d.year + d.mapping[0]["name"] + "</span>";
+    });
 
 
 
@@ -99,6 +100,9 @@ BarChart.prototype.initVis = function(){
         });
 
 
+    vis.svg.call(vis.tip);
+
+
     vis.selection.selectAll("rect")
         .data(function (d) { return d.mapping; })
         .enter().append("rect")
@@ -106,11 +110,8 @@ BarChart.prototype.initVis = function(){
         .attr("y", function (d) { return vis.y(d.y1); })
         .attr("height", function (d) { return vis.y(d.y0) - vis.y(d.y1); })
         .style("fill", function (d) { return vis.color(d.name); })
-        .style("stroke", "grey")
-        .on('mouseover', function(d) {
-            //shoeme();
-        })
-        .on('mouseout', "");
+        .style("stroke", "grey");
+
 
 
     vis.legend = vis.svg.selectAll(".legend")
@@ -127,6 +128,15 @@ BarChart.prototype.initVis = function(){
         .attr("height", 10)
         .style("fill", vis.color)
         .style("stroke", "grey");
+
+    vis.legend.append("text")
+        .attr("x", vis.width - 12)
+        .attr("y", 6)
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(function (d) { return d; });
+
+
 
     vis.legend.append("text")
         .attr("x", vis.width - 12)
@@ -157,16 +167,36 @@ BarChart.prototype.initVis = function(){
         .text("Wealth in Millions");
 
 
+
+    function captureData() {
+
+
+        vis.value = document.getElementById('ranking-type');
+        console.log(vis.value.options[vis.value.selectedIndex].value);
+    }
+
     // TO-DO: (Filter, aggregate, modify data)
     vis.wrangleData();
 
+
+
 }
+
 
 /*
  * Data wrangling
  */
 BarChart.prototype.wrangleData = function(){
 	var vis = this;
+
+
+   // vis.value = d3.select("#ranking-type").property("value");
+
+
+
+   // vis.value = d3.select("#ranking-type").property("value");
+   // console.log(vis.value);
+
 
 	// Update the visualization
 	vis.updateVis();
@@ -178,5 +208,17 @@ BarChart.prototype.wrangleData = function(){
  */
 BarChart.prototype.updateVis = function(){
 	var vis = this;
+
+
+
+
+
+
+
+
+vis.selection
+    .on('mouseover', vis.tip.show)
+    .on('mouseout', vis.tip.hide)
+
 
 }
