@@ -37,7 +37,7 @@ function loadData(error, dataCSV, statesJson, average_wealth_data, household_inc
         allData.top_incomes = crossfilter(top_incomes);
         allData.ny_times_data = crossfilter(ny_times_data);
         allData.statesJson = statesJson;
-
+        
         // ***********************************************************************
         // Average Wealth
         // ***********************************************************************

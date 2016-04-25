@@ -103,6 +103,9 @@ h2 {
     font-size: 20px;
 }
 
+th {
+    width: 200px;
+}
 
 
 .bs-callout+.bs-callout {
@@ -127,7 +130,7 @@ h2 {
 }
 
 .x.axis path {
-  display: none;
+    display: none;
 }
 
 .d3-tip {
