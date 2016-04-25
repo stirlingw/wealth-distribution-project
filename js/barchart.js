@@ -4,7 +4,7 @@ BarChart = function(_parentElement, _data){
 	this.displayData = []; // see data wrangling
 
 	// DEBUG RAW DATA
-	console.log(this.data);
+	//console.log(this.data);
 
 	this.initVis();
 }
@@ -99,9 +99,6 @@ BarChart.prototype.initVis = function(){
         });
 
 
-
-
-
     vis.selection.selectAll("rect")
         .data(function (d) { return d.mapping; })
         .enter().append("rect")
@@ -111,7 +108,7 @@ BarChart.prototype.initVis = function(){
         .style("fill", function (d) { return vis.color(d.name); })
         .style("stroke", "grey")
         .on('mouseover', function(d) {
-            shoeme();
+            //shoeme();
         })
         .on('mouseout', "");
 
@@ -160,7 +157,6 @@ BarChart.prototype.initVis = function(){
         .text("Wealth in Millions");
 
 
-
     // TO-DO: (Filter, aggregate, modify data)
     vis.wrangleData();
 
@@ -172,8 +168,6 @@ BarChart.prototype.initVis = function(){
 BarChart.prototype.wrangleData = function(){
 	var vis = this;
 
-
-
 	// Update the visualization
 	vis.updateVis();
 }
@@ -184,10 +178,5 @@ BarChart.prototype.wrangleData = function(){
  */
 BarChart.prototype.updateVis = function(){
 	var vis = this;
-
-
-
-
-
 
 }
