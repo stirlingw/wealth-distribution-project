@@ -103,6 +103,11 @@ h2 {
     font-size: 20px;
 }
 
+.line_US {
+    stroke: red;
+    stroke-dasharray: 3, 3;
+}
+
 /*==========================================================================*/
 /* Checkboxes for Small Multiples
 /*==========================================================================*/
@@ -125,6 +130,26 @@ input[type=checkbox] {
 
 label {
     margin-right:5px;
+}
+
+/*==========================================================================*/
+/* Range Slider
+/*==========================================================================*/
+#container_slider {
+    height: 80px;
+    padding: 10px;
+}
+
+#slider {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.info_slider {
+    padding: 2px;
+    background: lightblue;
+    text-align: center;
+    width: 50px;
 }
 
 .bs-callout+.bs-callout {

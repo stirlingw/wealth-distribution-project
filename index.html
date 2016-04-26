@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="css/dc.css">
     <link rel="stylesheet" href="css/jquery-ui.css">
 	<link href='https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/nouislider.min.css">
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="50">
 
@@ -151,6 +152,26 @@
         </div>
     </div>
     <div id="section42" class="container-fluid">
+        <!-- Container for the slider -->
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Visualization placeholders -->
+                <div id="container_slider">
+                    <div class="col-xs-1"><p class="info_slider">Year</p></div>
+                    <div class="col-sm-10"><p id="rangeSlider" class="slider"></p></div>
+                    <div class="col-xs-1"><p id="slider_year" class="info_slider">2014</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Visualization placeholders -->
+                <span>Income Bar Chart</span>
+                <div id="income-bar-chart"></div>
+            </div>
+        </div>
+    </div>
+    <div id="section43" class="container-fluid">
         <div class="row">
             <table id="tbl-sm" style="width:100%">
                 <tr>
@@ -273,6 +294,7 @@
 	<script src="js/queue.min.js"></script>
     <script src="js/jquery-ui.js"></script>
     <script src="js/d3.tip.js"></script>
+    <script src="js/nouislider.min.js"></script>
 
     <!-- Load Global Variables -->
     <script src="js/us_states.js"></script>
@@ -283,6 +305,7 @@
     <script src="js/lineChart.js"></script>
     <script src="js/areaChart.js"></script>
     <script src="js/smallMultiples.js"></script>
+    <script src="js/householdIncome.js"></script>
     <script src="js/barchart.js"></script>
     <script src="js/bar-slider.js"></script>
 
