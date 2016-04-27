@@ -87,7 +87,7 @@ SmallMultiples.prototype.initVis = function(){
 			})
 		};
 	});
-	console.log("seriesData", vis.seriesData);
+	//console.log("seriesData", vis.seriesData);
 
 	// Line chart's function
 	vis.line = d3.svg.line()
@@ -236,8 +236,6 @@ SmallMultiples.prototype.updateVis = function(){
 		.attr("class", "group_line_US")
 		.append("path")
 		.attr("class", "line line_US")
-		.style("stroke", "red")
-		.style("stroke-dasharray", ("3, 3"))
 		.attr("d", function(d) {
 			return vis.line(d.values);
 		});
@@ -309,9 +307,7 @@ SmallMultiples.prototype.updateVis = function(){
 
 			line_US.enter()
 				.append("path")
-				.attr("class", "line line_US")
-				.style("stroke", "red")
-				.style("stroke-dasharray", ("3, 3"));
+				.attr("class", "line line_US");
 
 			line_US.attr("d", function(d) {
 				return vis.detail_line(d.values);
@@ -361,8 +357,6 @@ SmallMultiples.prototype.updateVis = function(){
 		.append("path")
 		.attr("id", "line_US")
 		.attr("class", "line line_US")
-		.style("stroke", "red")
-		.style("stroke-dasharray", ("3, 3"))
 		.attr("d", function(d) {
 			return vis.detail_line(d.values);
 		});
