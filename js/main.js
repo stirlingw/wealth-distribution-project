@@ -2,6 +2,7 @@
 // Will be used to the save the loaded JSON data
 var allData = [];
 var household_income_dataset = [];
+var household_income_dataset_dc = [];
 var average_wealth_dataset = [];
 var average_real_wealth_per_family_dataset = [];
 var top_income_dataset = [];
@@ -14,24 +15,26 @@ var parseYear = d3.time.format("%Y").parse;
 var colorScale = d3.scale.category10();
 
 // Variables for the visualization instances
-var choropleth, timeline, areaChart, lineChart, smallMultiples, barChart;
+var choropleth, timeline, areaChart, lineChart, smallMultiples, householdIncome, barChart;
 
 var formatCurrency = d3.format("$s");
+var formatInteger = d3.format("d");
+var format2DP = d3.format(".2f");
 
-// Start application by loading the data
 // Start application by loading the data
 queue()
 	.defer(d3.csv,  "data/wid_world_income_distribution.csv")
 	.defer(d3.json, "data/us-states.json")
 	.defer(d3.csv,  "data/average_wealth.csv")
     .defer(d3.csv,  "data/census_median_household_income.csv")
+    .defer(d3.csv,  "data/census_median_household_income_dc.csv")
     .defer(d3.csv,  "data/berkeley-zuckman-average-real-wealth-per-family-data.csv")
     .defer(d3.csv,  "data/top-incomes-since-1917_vs2012.csv")
     .defer(d3.json, "data/ny-times-household-income.json")
 	.await(loadData);
 
 
-function loadData(error, dataCSV, statesJson, average_wealth_data, household_income_data, average_real_wealth_per_family_data, top_incomes, ny_times_data){
+function loadData(error, dataCSV, statesJson, average_wealth_data, household_income_data, household_income_data_dc, average_real_wealth_per_family_data, top_incomes, ny_times_data){
 	if(!error){
         allData.data = crossfilter(dataCSV);
         allData.top_incomes = crossfilter(top_incomes);
@@ -62,7 +65,14 @@ function loadData(error, dataCSV, statesJson, average_wealth_data, household_inc
 
         // Hand CSV data off to global var
         household_income_dataset = household_income_data;
-        
+
+        household_income_data_dc.forEach(function (d) {
+            d["Year"] = +d["Year"];
+            d["Median Household Income"] = +d["Median Household Income"];
+        });
+
+        // Hand CSV data off to global var
+        household_income_dataset_dc = household_income_data_dc;
         // ***********************************************************************
         // Average real wealth per family
         // ***********************************************************************
@@ -97,10 +107,10 @@ function createVis() {
 	//areachart = new StackedAreaChart("stacked-area-chart", allData.layers)
     //	timeline = new Timeline("timeline", allData);
 	areaChart = new AreaChart("area-chart", average_wealth_dataset);
+    householdIncome = new HouseholdIncome("income-bar-chart", household_income_dataset_dc);
     smallMultiples = new SmallMultiples("small-multiples", household_income_dataset);
     barChart = new BarChart("bar-chart", average_real_wealth_per_family_dataset);
     choropleth = new Choropleth("choropleth", allData);
-
 }
 
 
