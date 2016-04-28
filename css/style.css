@@ -2,7 +2,7 @@
 body {
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
-    background-color: #f7f7f7;
+    background-color: #F5F5DC ;
     padding: 0 20px;
 }
 
@@ -210,7 +210,7 @@ label {
 
 /* JUMBO TRON PIC */
 .bg {
-  background: url('../img/happy-at-money.jpg') no-repeat center center;
+    background: url('../img/wealth .jpeg') no-repeat center center;
   position: fixed;
   width: 100%;
   height: 800px; /*same height as jumbotron */
@@ -221,11 +221,33 @@ label {
   filter: alpha(opacity=30); /* For IE8 and earlier */
 }
 
+
 .jumbotron {
-  height: 800px;
-  color: black;
-  text-shadow: #fff 0 1px 1px;
-  background:transparent;
-  font-family: 'Chunkfive';
-  font-weight: 900;
+    height: 500px;
+    color: black;
+    text-shadow: #fff 0 1px 1px;
+    background:transparent;
+    font-family: 'Chunkfive';
+    font-weight: 900;
+}
+
+.introtext {
+    margin-top: 150px;
+    color: black;
+    text-shadow: #fff 0 1px 1px;
+    background:transparent;
+    font-family: 'Roboto', sans-serif;
+    font-size: 125%;
+
+}
+
+ul
+{
+
+    font-size: 125%;
+}
+
+.bottom {
+
+
 }
