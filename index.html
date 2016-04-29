@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/dc.css">
     <link rel="stylesheet" href="css/jquery-ui.css">
-	<link href='https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700' rel='stylesheet' type='text/css'>
+
     <link rel="stylesheet" href="css/nouislider.min.css">
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="50">
@@ -52,39 +52,32 @@
             Jee Loong Chew (jee.loong@gmail.com),
             Kirill B (kirill00k@gmail.com)
         </p>
-
-
-
     </div>
-
-    <div class="introtext" >
+    <div class="container-fluid" class="col-md-12">
+        <h4>Abstract:</h4>
+        <p>Our perception of the distribution of wealth in America might not be accurate, especially in terms of inequalities and the actual real numbers.</p>
         <p>
-
-        <div>
-            <h1>Did you know ?</h1>
-            <ul>
-                <li>If your income around $98,000 a year, you are in the top 25%</li>
-                <li>If you income around %155,000 at year, you are in the top 10%</li>
-                <li>The Top 1 Percent Of Americans Owns 40 Percent Of The Nation’s Wealth</li>
-                <li>The Top 1 Percent Of Americans Take Home 24 Percent Of National Income</li>
-                <li>The Top 1 Percent Of Americans Own Half Of The Country’s Stocks, Bonds, And Mutual Funds</li>
-                *source: CNN Money and Business Insider
-            </ul>
-        </div>
-        </br></br>
-            Our perception of the distribution of wealth in America might not be accurate, especially in terms of inequalities and the actual real numbers.
-            </br></br>
-            <strong>Have you ever wondered about following questions:</br></strong>
-            Are only the top 10% earners in the economy living the “life of luxury”?</br>
-            How much money does it take to “feel rich” in America?</br>
-            Where is all wealth accumulated?</br>
-            </br>
-            Wealth as we know it, might not be distributed as we thought before. Surprisingly it doesn’t take to be a millionaire to be in the top 25% or even 10% of the wealthiest people in USA. Follow this page where we try to explore and show how wealth is distributed among population in USA.
-            Let’s look at the bottom 90%, top 10%, top 1%, and even top .01% to see how wealth really distributed.
-
+        Wealth as we know it, might not be distributed as we thought before. Surprisingly it doesn’t take to be a millionaire to be in the top 25% or even 10% of the wealthiest people in USA. Follow this page where we try to explore and show how wealth is distributed among population in USA.
+        Let’s look at the bottom 90%, top 10%, top 1%, and even top .01% to see how wealth really distributed.
         </p>
-    </div>
 
+        <h4>Questions this study tries to solve:</h4>
+        <ul>
+            <li>Are only the top 10% earners in the economy living the “life of luxury”?</li>
+            <li>How much money does it take to “feel rich” in America?</li>
+            <li>Where is all wealth accumulated?</li>
+        </ul>
+
+        <h4>Quick Info:</h4>
+        <ul>
+            <li>If your income around $98,000 a year, you are in the top 25%</li>
+            <li>If you income around $155,000 at year, you are in the top 10%</li>
+            <li>The Top 1 Percent Of Americans Owns 40 Percent Of The Nation’s Wealth</li>
+            <li>The Top 1 Percent Of Americans Take Home 24 Percent Of National Income</li>
+            <li>The Top 1 Percent Of Americans Own Half Of The Country’s Stocks, Bonds, And Mutual Funds</li>
+        </ul>
+        <p>*source: CNN Money and Business Insider</p>
+    </div>
 
     <div id="section11" class="container-fluid">
 
@@ -97,14 +90,16 @@
             </div>
         </div>
     </div>
+
     <div id="section12" class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-2"><input type="text" value="type something" id="amount"></div>
-                <div class="col-md-10"><div id="slider-range-max"></div></div>
+        <div class="col-md-12">
+            <!-- Visualization placeholders -->
+            <div id="choropleth-container-slider">
+                <div class="col-xs-1"><p class="choropleth-slider">$0.00</p></div>
+                <div class="col-sm-10"><p id="choropleth-range-slider" class="slider"></p></div>
+                <div class="col-xs-1"><p id="slider-income" class="info_slider">$100,000</p></div>
             </div>
         </div>
-        <br/>
         <div class="row">
             <div class="col-md-8">
                 <!-- Visualization placeholders -->
@@ -118,7 +113,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="col-md-4">
-                <div id="year-line-chart">
+                <div id="income-line-chart">
                     <div class="clearfix"></div>
                 </div>
                 <div class="clearfix"></div>
@@ -196,92 +191,134 @@
         </div>
     </div>
 
-    <div class="row">
         <div class="col-md-12 bs-callout bs-callout-info">
             Select states and regions where you would like to see and compare national average income(dotted line)
             vs. average household income(solid line).
         </div>
-    </div>
+    <div class="container">
+    <div class="row">
     <div id="section43" class="container-fluid">
         <div class="row">
             <table id="tbl-sm" style="width:100%">
                 <tr>
+                    <th>Region</th>
                     <th><input type="checkbox" id="checkBox_Pacific" value="Pacific" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_Pacific">Pacific</label></th>
-                    <td><input type="checkbox" id="checkBox_AK" value="AK" onchange="checkSM(this)" checked="true" class="Pacific"><label for="checkBox_AK">Alaska</label></td>
-                    <td><input type="checkbox" id="checkBox_CA" value="CA" onchange="checkSM(this)" checked="true" class="Pacific"><label for="checkBox_CA">California</label></td>
-                    <td><input type="checkbox" id="checkBox_HI" value="HI" onchange="checkSM(this)" checked="true" class="Pacific"><label for="checkBox_HI">Hawaii</label></td>
-                    <td><input type="checkbox" id="checkBox_OR" value="OR" onchange="checkSM(this)" checked="true" class="Pacific"><label for="checkBox_OR">Oregon</label></td>
-                    <td><input type="checkbox" id="checkBox_WA" value="WA" onchange="checkSM(this)" checked="true" class="Pacific"><label for="checkBox_WA">Washington</label></td>
-                </tr>
-                <tr>
                     <th><input type="checkbox" id="checkBox_Mountain" value="Mountain" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_Mountain">Mountain</label></th>
-                    <td><input type="checkbox" id="checkBox_AZ" value="AZ" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_AZ">Arizona</label></td>
-                    <td><input type="checkbox" id="checkBox_CO" value="CO" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_CO">Colorado</label></td>
-                    <td><input type="checkbox" id="checkBox_ID" value="ID" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_ID">Idaho</label></td>
-                    <td><input type="checkbox" id="checkBox_MT" value="MT" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_MT">Montana</label></td>
-                    <td><input type="checkbox" id="checkBox_NV" value="NV" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_NV">Nevada</label></td>
-                    <td><input type="checkbox" id="checkBox_NM" value="NM" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_NM">New Mexico</label></td>
-                    <td><input type="checkbox" id="checkBox_UT" value="UT" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_UT">Utah</label></td>
-                    <td><input type="checkbox" id="checkBox_WY" value="WY" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_WY">Wyoming</label></td>
-                </tr>
-                <tr>
                     <th><input type="checkbox" id="checkBox_West_North_Central" value="West_North_Central" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_West_North_Central">West North Central</label></th>
-                    <td><input type="checkbox" id="checkBox_IA" value="IA" onchange="checkSM(this)" checked="true" class="West_North_Central"><label for="checkBox_IA">Iowa</label></td>
-                    <td><input type="checkbox" id="checkBox_KS" value="KS" onchange="checkSM(this)" checked="true" class="West_North_Central"><label for="checkBox_KS">Kansas</label></td>
-                    <td><input type="checkbox" id="checkBox_MN" value="MN" onchange="checkSM(this)" checked="true" class="West_North_Central"><label for="checkBox_MN">Minnesota</label></td>
-                    <td><input type="checkbox" id="checkBox_MO" value="MO" onchange="checkSM(this)" checked="true" class="West_North_Central"><label for="checkBox_MO">Missouri</label></td>
-                    <td><input type="checkbox" id="checkBox_NE" value="NE" onchange="checkSM(this)" checked="true" class="West_North_Central"><label for="checkBox_NE">Nebraska</label></td>
-                    <td><input type="checkbox" id="checkBox_ND" value="ND" onchange="checkSM(this)" checked="true" class="West_North_Central"><label for="checkBox_ND">North Dakota</label></td>
-                    <td><input type="checkbox" id="checkBox_SD" value="SD" onchange="checkSM(this)" checked="true" class="West_North_Central"><label for="checkBox_SD">South Dakota</label></td>
+                    <th><input type="checkbox" id="checkBox_West_South_Central" value="West_South_Central" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_West_South_Central">West South Central</label></th>
+                    <th><input type="checkbox" id="checkBox_East_North_Central" value="East_North_Central" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_East_North_Central">East North Central</label></th>
+                    <th><input type="checkbox" id="checkBox_East_South_Central" value="East_South_Central" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_East_South_Central">East South Central</label></th>
+                    <th><input type="checkbox" id="checkBox_Mid_Atlantic" value="Mid_Atlantic" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_Mid_Atlantic">Mid-Atlantic</label></th>
+                    <th><input type="checkbox" id="checkBox_South_Atlantic" value="South_Atlantic" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_South_Atlantic">South Atlantic</label></th>
+                    <th><input type="checkbox" id="checkBox_New_England" value="New_England" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_New_England">New England</label></th>
                 </tr>
                 <tr>
-                    <th><input type="checkbox" id="checkBox_West_South_Central" value="West_South_Central" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_West_South_Central">West South Central</label></th>
+                    <th>States</th>
+                    <td><input type="checkbox" id="checkBox_AK" value="AK" onchange="checkSM(this)" checked="true" class="Pacific"><label for="checkBox_AK">Alaska</label></td>
+                    <td><input type="checkbox" id="checkBox_AZ" value="AZ" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_AZ">Arizona</label></td>
+                    <td><input type="checkbox" id="checkBox_IA" value="IA" onchange="checkSM(this)" checked="true" class="West_North_Central"><label for="checkBox_IA">Iowa</label></td>
                     <td><input type="checkbox" id="checkBox_AR" value="AR" onchange="checkSM(this)" checked="true" class="West_South_Central"><label for="checkBox_AR">Arkansas</label></td>
+                    <td><input type="checkbox" id="checkBox_IL" value="IL" onchange="checkSM(this)" checked="true" class="East_North_Central"><label for="checkBox_IL">Illinois</label></td>
+                    <td><input type="checkbox" id="checkBox_AL" value="AL" onchange="checkSM(this)" checked="true" class="East_South_Central"><label for="checkBox_AL">Alabama</label></td>
+                    <td><input type="checkbox" id="checkBox_NJ" value="NJ" onchange="checkSM(this)" checked="true" class="Mid_Atlantic"><label for="checkBox_NJ">New Jersey</label></td>
+                    <td><input type="checkbox" id="checkBox_DE" value="DE" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_DE">Delaware</label></td>
+                    <td><input type="checkbox" id="checkBox_CT" value="CT" onchange="checkSM(this)" checked="true" class="New_England"><label for="checkBox_CT">Connecticut</label></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_CA" value="CA" onchange="checkSM(this)" checked="true" class="Pacific"><label for="checkBox_CA">California</label></td>
+                    <td><input type="checkbox" id="checkBox_CO" value="CO" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_CO">Colorado</label></td>
+                    <td><input type="checkbox" id="checkBox_KS" value="KS" onchange="checkSM(this)" checked="true" class="West_North_Central"><label for="checkBox_KS">Kansas</label></td>
                     <td><input type="checkbox" id="checkBox_LA" value="LA" onchange="checkSM(this)" checked="true" class="West_South_Central"><label for="checkBox_LA">Louisiana</label></td>
+                    <td><input type="checkbox" id="checkBox_IN" value="IN" onchange="checkSM(this)" checked="true" class="East_North_Central"><label for="checkBox_IN">Indiana</label></td>
+                    <td><input type="checkbox" id="checkBox_KY" value="KY" onchange="checkSM(this)" checked="true" class="East_South_Central"><label for="checkBox_KY">Kentucky</label></td>
+                    <td><input type="checkbox" id="checkBox_NY" value="NY" onchange="checkSM(this)" checked="true" class="Mid_Atlantic"><label for="checkBox_NY">New York</label></td>
+                    <td><input type="checkbox" id="checkBox_DC" value="DC" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_DC">District of Columbia</label></td>
+                    <td><input type="checkbox" id="checkBox_ME" value="ME" onchange="checkSM(this)" checked="true" class="New_England"><label for="checkBox_ME">Maine</label></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_HI" value="HI" onchange="checkSM(this)" checked="true" class="Pacific"><label for="checkBox_HI">Hawaii</label></td>
+                    <td><input type="checkbox" id="checkBox_ID" value="ID" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_ID">Idaho</label></td>
+                    <td><input type="checkbox" id="checkBox_MN" value="MN" onchange="checkSM(this)" checked="true" class="West_North_Central"><label for="checkBox_MN">Minnesota</label></td>
                     <td><input type="checkbox" id="checkBox_OK" value="OK" onchange="checkSM(this)" checked="true" class="West_South_Central"><label for="checkBox_OK">Oklahoma</label></td>
                     <td><input type="checkbox" id="checkBox_TX" value="TX" onchange="checkSM(this)" checked="true" class="West_South_Central"><label for="checkBox_TX">Texas</label></td>
-                </tr>
-                <tr>
-                    <th><input type="checkbox" id="checkBox_East_North_Central" value="East_North_Central" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_East_North_Central">East North Central</label></th>
-                    <td><input type="checkbox" id="checkBox_IL" value="IL" onchange="checkSM(this)" checked="true" class="East_North_Central"><label for="checkBox_IL">Illinois</label></td>
-                    <td><input type="checkbox" id="checkBox_IN" value="IN" onchange="checkSM(this)" checked="true" class="East_North_Central"><label for="checkBox_IN">Indiana</label></td>
-                    <td><input type="checkbox" id="checkBox_MI" value="MI" onchange="checkSM(this)" checked="true" class="East_North_Central"><label for="checkBox_MI">Michigan</label></td>
-                    <td><input type="checkbox" id="checkBox_OH" value="OH" onchange="checkSM(this)" checked="true" class="East_North_Central"><label for="checkBox_OH">Ohio</label></td>
-                    <td><input type="checkbox" id="checkBox_WI" value="WI" onchange="checkSM(this)" checked="true" class="East_North_Central"><label for="checkBox_WI">Wisconsin</label></td>
-                </tr>
-                <tr>
-                    <th><input type="checkbox" id="checkBox_East_South_Central" value="East_South_Central" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_East_South_Central">East South Central</label></th>
-                    <td><input type="checkbox" id="checkBox_AL" value="AL" onchange="checkSM(this)" checked="true" class="East_South_Central"><label for="checkBox_AL">Alabama</label></td>
-                    <td><input type="checkbox" id="checkBox_KY" value="KY" onchange="checkSM(this)" checked="true" class="East_South_Central"><label for="checkBox_KY">Kentucky</label></td>
                     <td><input type="checkbox" id="checkBox_MS" value="MS" onchange="checkSM(this)" checked="true" class="East_South_Central"><label for="checkBox_MS">Mississippi</label></td>
-                    <td><input type="checkbox" id="checkBox_TN" value="TN" onchange="checkSM(this)" checked="true" class="East_South_Central"><label for="checkBox_TN">Tennessee</label></td>
-                </tr>
-                <tr>
-                    <th><input type="checkbox" id="checkBox_Mid_Atlantic" value="Mid_Atlantic" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_Mid_Atlantic">Mid-Atlantic</label></th>
-                    <td><input type="checkbox" id="checkBox_NJ" value="NJ" onchange="checkSM(this)" checked="true" class="Mid_Atlantic"><label for="checkBox_NJ">New Jersey</label></td>
-                    <td><input type="checkbox" id="checkBox_NY" value="NY" onchange="checkSM(this)" checked="true" class="Mid_Atlantic"><label for="checkBox_NY">New York</label></td>
                     <td><input type="checkbox" id="checkBox_PA" value="PA" onchange="checkSM(this)" checked="true" class="Mid_Atlantic"><label for="checkBox_PA">Pennsylvania</label></td>
-                </tr>
-                <tr>
-                    <th><input type="checkbox" id="checkBox_South_Atlantic" value="South_Atlantic" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_South_Atlantic">South Atlantic</label></th>
-                    <td><input type="checkbox" id="checkBox_DE" value="DE" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_DE">Delaware</label></td>
-                    <td><input type="checkbox" id="checkBox_DC" value="DC" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_DC">District of Columbia</label></td>
                     <td><input type="checkbox" id="checkBox_FL" value="FL" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_FL">Florida</label></td>
-                    <td><input type="checkbox" id="checkBox_GA" value="GA" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_GA">Georgia</label></td>
-                    <td><input type="checkbox" id="checkBox_MD" value="MD" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_MD">Maryland</label></td>
-                    <td><input type="checkbox" id="checkBox_NC" value="NC" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_NC">North Carolina</label></td>
-                    <td><input type="checkbox" id="checkBox_SC" value="SC" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_SC">South Carolina</label></td>
-                    <td><input type="checkbox" id="checkBox_VA" value="VA" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_VA">Virginia</label></td>
-                    <td><input type="checkbox" id="checkBox_WV" value="WV" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_WV">West Virginia</label></td>
+                    <td><input type="checkbox" id="checkBox_MA" value="MA" onchange="checkSM(this)" checked="true" class="New_England"><label for="checkBox_MA">Massachusetts</label></td>
                 </tr>
                 <tr>
-                    <th><input type="checkbox" id="checkBox_New_England" value="New_England" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_New_England">New England</label></th>
-                    <td><input type="checkbox" id="checkBox_CT" value="CT" onchange="checkSM(this)" checked="true" class="New_England"><label for="checkBox_CT">Connecticut</label></td>
-                    <td><input type="checkbox" id="checkBox_ME" value="ME" onchange="checkSM(this)" checked="true" class="New_England"><label for="checkBox_ME">Maine</label></td>
-                    <td><input type="checkbox" id="checkBox_MA" value="MA" onchange="checkSM(this)" checked="true" class="New_England"><label for="checkBox_MA">Massachusetts</label></td>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_OR" value="OR" onchange="checkSM(this)" checked="true" class="Pacific"><label for="checkBox_OR">Oregon</label></td>
+                    <td><input type="checkbox" id="checkBox_MT" value="MT" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_MT">Montana</label></td>
+                    <td><input type="checkbox" id="checkBox_MO" value="MO" onchange="checkSM(this)" checked="true" class="West_North_Central"><label for="checkBox_MO">Missouri</label></td>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_MI" value="MI" onchange="checkSM(this)" checked="true" class="East_North_Central"><label for="checkBox_MI">Michigan</label></td>
+                    <td><input type="checkbox" id="checkBox_TN" value="TN" onchange="checkSM(this)" checked="true" class="East_South_Central"><label for="checkBox_TN">Tennessee</label></td>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_GA" value="GA" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_GA">Georgia</label></td>
                     <td><input type="checkbox" id="checkBox_NH" value="NH" onchange="checkSM(this)" checked="true" class="New_England"><label for="checkBox_NH">New Hampshire</label></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_WA" value="WA" onchange="checkSM(this)" checked="true" class="Pacific"><label for="checkBox_WA">Washington</label></td>
+                    <td><input type="checkbox" id="checkBox_NV" value="NV" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_NV">Nevada</label></td>
+                    <td><input type="checkbox" id="checkBox_NE" value="NE" onchange="checkSM(this)" checked="true" class="West_North_Central"><label for="checkBox_NE">Nebraska</label></td>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_OH" value="OH" onchange="checkSM(this)" checked="true" class="East_North_Central"><label for="checkBox_OH">Ohio</label></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_MD" value="MD" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_MD">Maryland</label></td>
                     <td><input type="checkbox" id="checkBox_RI" value="RI" onchange="checkSM(this)" checked="true" class="New_England"><label for="checkBox_RI">Rhode Island</label></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_NM" value="NM" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_NM">New Mexico</label></td>
+                    <td><input type="checkbox" id="checkBox_ND" value="ND" onchange="checkSM(this)" checked="true" class="West_North_Central"><label for="checkBox_ND">North Dakota</label></td>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_WI" value="WI" onchange="checkSM(this)" checked="true" class="East_North_Central"><label for="checkBox_WI">Wisconsin</label></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_NC" value="NC" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_NC">North Carolina</label></td>
                     <td><input type="checkbox" id="checkBox_VT" value="VT" onchange="checkSM(this)" checked="true" class="New_England"><label for="checkBox_VT">Vermont</label></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_UT" value="UT" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_UT">Utah</label></td>
+                    <td><input type="checkbox" id="checkBox_SD" value="SD" onchange="checkSM(this)" checked="true" class="West_North_Central"><label for="checkBox_SD">South Dakota</label></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_SC" value="SC" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_SC">South Carolina</label></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_WY" value="WY" onchange="checkSM(this)" checked="true" class="Mountain"><label for="checkBox_WY">Wyoming</label></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_VA" value="VA" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_VA">Virginia</label></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><input type="checkbox" id="checkBox_WV" value="WV" onchange="checkSM(this)" checked="true" class="South_Atlantic"><label for="checkBox_WV">West Virginia</label></td>
+                    <td>&nbsp;</td>
                 </tr>
             </table>
         </div>
@@ -294,22 +331,27 @@
                 </div>
             </div>
         </div>
+        </div>
     </div>
-
-    <div class="introtext bottom" >
-        <p>
-            We hope that you were able to learn something new and answered few questions about wealth distribution in USA.
-            It gets even more interesting if you start searching and will try to compare US to other countries.
-            If we sparked your interest, we encourage you to go ahead and explore further.
-            You can start by looking at this list
-            <a href="https://en.wikipedia.org/wiki/List_of_countries_by_distribution_of_wealth">list</a>
-            of countries by distribution of wealth
-            </br></br>
-            Happy exploring!
-
-        </p>
     </div>
+    <div class="clearfix"></div>
+    <div class="container">
+        <div class="row">
+            <div class="intro-text-bottom">
+                <p>
+                    We hope that you were able to learn something new and answered few questions about wealth distribution in USA.
+                    It gets even more interesting if you start searching and will try to compare US to other countries.
+                    If we sparked your interest, we encourage you to go ahead and explore further.
+                    You can start by looking at this list
+                    <a href="https://en.wikipedia.org/wiki/List_of_countries_by_distribution_of_wealth">list</a>
+                    of countries by distribution of wealth
+                    </br></br>
+                    Happy exploring!
 
+                </p>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal Box-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

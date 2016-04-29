@@ -241,6 +241,7 @@ HouseholdIncome.prototype.createSlider = function(){
     // Generate key-value pair for rangeSlider
     vis.yearData_Key = {};
     vis.yearData_Key["min"] = vis.yearList[0];
+
     var percentStep = 100 / (vis.yearList.length - 1);
     for (var i = 1; i < vis.yearList.length - 1; i+=1) {
         var key = format2DP(i * percentStep) + "%";

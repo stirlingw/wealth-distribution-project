@@ -129,12 +129,12 @@ function brushed() {
 }
 
 /*http://www.bootply.com/103783*/
-var jumboHeight = $('.jumbotron').outerHeight();
-function parallax(){
-    var scrolled = $(window).scrollTop();
-    $('.bg').css('height', (jumboHeight-scrolled) + 'px');
-}
-
-$(window).scroll(function(e){
-    parallax();
-});
+//var jumboHeight = $('.jumbotron').outerHeight();
+//function parallax(){
+//    var scrolled = $(window).scrollTop();
+//    $('.bg').css('height', (jumboHeight-scrolled) + 'px');
+//}
+//
+//$(window).scroll(function(e){
+//    parallax();
+//});

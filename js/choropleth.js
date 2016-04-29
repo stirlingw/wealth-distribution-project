@@ -41,7 +41,7 @@ Choropleth.prototype.initVis = function(){
     $( "#amount" ).val( $( "#slider-range-max" ).slider( "value" ) );
 
     vis.usChart = dc.geoChoroplethChart("#us-chart");
-    //vis.yearLineChart = dc.lineChart("#year-line-chart");
+    vis.incomeLineChart = dc.lineChart("#income-line-chart");
 
     //http://www.epi.org/publication/income-inequality-by-state-1917-to-2012/
     this.wrangleData();
@@ -58,6 +58,49 @@ Choropleth.prototype.wrangleData = function(){
     vis.data.stateGroup = vis.data.nyStatesDim.group().reduceSum(function(d) {
         return d["cuts"][50];
     });
+
+    vis.data.statesGroup = vis.data.nyStatesDim.group().reduce(
+        function reduceAdd(p, v) {
+            console.log(v["cuts"].length);
+
+            p.per_0 = v["cuts"][0]++;
+            p.per_1 = v["cuts"][1]++;
+            p.per_2 = v["cuts"][2]++;
+            p.per_3 = v["cuts"][3]++;
+            p.per_4 = v["cuts"][4]++;
+            p.per_5 = v["cuts"][5]++;
+            p.per_6 = v["cuts"][6]++;
+            p.per_50 = v["cuts"][50]++;
+            return p;
+        },
+        function reduceRemove(p, v) {
+            p.per_0 = v["cuts"][0]++;
+            p.per_1 = v["cuts"][1]--;
+            p.per_2 = v["cuts"][2]--;
+            p.per_3 = v["cuts"][3]--;
+            p.per_4 = v["cuts"][4]--;
+            p.per_5 = v["cuts"][5]--;
+            p.per_6 = v["cuts"][6]--;
+            p.per_50 = v["cuts"][50]--;
+            return p;
+        },
+        function reduceInitial() {
+            return {
+                per_0: 0,
+                per_1: 0,
+                per_2: 0,
+                per_3: 0,
+                per_4: 0,
+                per_5: 0,
+                per_6: 0,
+                per_50: 0
+            }
+        }
+    );
+
+   //console.log(vis.data.nyStatesDim.top(Infinity))
+
+   //console.log(vis.data.yearGroup.all(Infinity));
 
 
 //    console.log(vis.data.nyCutsDim.top(Infinity))
@@ -101,6 +144,7 @@ Choropleth.prototype.wrangleData = function(){
 //
 //        }
 //    );
+    //this.createSlider();
     this.updateVis();
 }
 
@@ -131,25 +175,72 @@ Choropleth.prototype.updateVis = function(){
 
     //console.log(vis.usChart.filter());
 
-//    vis.yearLineChart
-//        .width(380)
-//        .height(200)
-//        .margins({top: 10, right: 70, bottom: 30, left: 100})
-//        .dimension(vis.data.yearDim)
-//        .group(vis.data.yearGroup)
-//        .valueAccessor(function(d) {
-//            return d.value.top001;
-//        })
-//        .x(d3.scale.linear().domain([1913, 2012]))
-//        .renderHorizontalGridLines(true)
-//        .elasticY(true)
-//        .brushOn(true)
-//        .title(function(d){
-//            return d.key + "\nTop 0.01% (99.99th-100th percentiles) " + Math.round(d.value.top001);
-//        })
-//        .xAxis().ticks(5).tickFormat(d3.format("d"));
-
+    vis.incomeLineChart
+        .width(380)
+        .height(200)
+        .margins({top: 10, right: 70, bottom: 30, left: 100})
+        .dimension(vis.data.stateGroup)
+        .group(vis.data.statesGroup)
+        .valueAccessor(function(d) {
+            return d.value.per_50;
+        })
+        .x(d3.scale.linear().domain([0, 300000]))
+        .renderHorizontalGridLines(true)
+        .elasticY(true)
+        //.brushOn(true)
+        .title(function(d){
+            return d.key + "\nIncome Per Hourshold " + Math.round(d.value.per_50);
+        })
+        .xAxis().ticks(5);
+    console.log(dc);
 
     dc.renderAll();
 }
 
+// http://refreshless.com/nouislider/
+//Choropleth.prototype.createSlider = function(){
+//
+//    var vis = this;
+//
+//
+//
+////    var rangeSlider = document.getElementById('choropleth-range-slider');
+////
+////    // Generate key-value pair for rangeSlider
+////    vis.yearData_Key = {};
+////    vis.yearData_Key["min"] = vis.yearList[0];
+////    var percentStep = 100 / (vis.yearList.length - 1);
+////    for (var i = 1; i < vis.yearList.length - 1; i+=1) {
+////        var key = format2DP(i * percentStep) + "%";
+////        vis.yearData_Key[key] = vis.yearList[i];
+////    }
+////    vis.yearData_Key["max"] = vis.yearList[vis.yearList.length - 1];
+////    //console.log("yearData_Key", vis.yearData_Key);
+////
+////    vis.selectedYear = vis.yearData_Key["max"];
+////    //console.log("selectedYear", vis.selectedYear);
+////
+////    noUiSlider.create(rangeSlider, {
+////        start: vis.yearData_Key["max"],
+////        snap: true,
+////        range: vis.yearData_Key,
+////        pips: {
+////            mode: 'count',
+////            values: 11,
+////            density: 4,
+////            stepped: true
+////        }
+////    });
+////
+////    // Initialize labels to the min and max year
+////    document.getElementById("slider-income").innerHTML = vis.selectedYear;
+////
+////    // http://refreshless.com/nouislider/events-callbacks/
+////    rangeSlider.noUiSlider.on('change', function(values, handle, unencoded, tap, positions){
+////
+////        console.log(values);
+////        vis.selectedYear = formatInteger(values);
+////        document.getElementById("slider-income").innerHTML = vis.selectedYear;
+////        vis.updateVis();
+////    });
+//};
