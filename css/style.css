@@ -271,3 +271,10 @@ label {
 .intro-text-bottom {
     display: inline;
 }
+
+#income-line-chart.income-line-chart{
+    font-size: 125%;
+}
+.per-user{
+    font-size: 125%;
+}
