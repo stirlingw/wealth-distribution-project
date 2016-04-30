@@ -2,9 +2,34 @@ var rateById = d3.map();
 
 // var color = d3.scale.ordinal().domain([1,2,3,4,5]).range(["#009ed8","#80e28e","#e9ec32","#f6a023","#f37124"])
 
-var color = d3.scale.ordinal().domain([25000,40000,50000,62500,75000]).range(['rgb(254,229,217)','rgb(252,174,145)','rgb(251,106,74)','rgb(222,45,38)','rgb(165,15,21)'])
+var color = d3.scale.ordinal().domain([1,2,3,4,5,6,7,8,9]).range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"])
 
-rates.forEach(function(d) { rateById.set(d.id, color(+d.cuts[50])); });
+rates.forEach(function(d) {
+    var foo = 0;
+    if(d.cuts !== "undefined"){
+        if(d.cuts[50] >= 30000 && d.cuts[50] < 35000){
+            foo = 1;
+        }else if(d.cuts[50] >= 35000 && d.cuts[50] < 40000){
+            foo = 2;
+        }else if(d.cuts[50] >= 40000 && d.cuts[50] < 45000){
+            foo = 3;
+        }else if(d.cuts[50] >= 45000 && d.cuts[50] < 50000){
+            foo = 4;
+        }else if(d.cuts[50] >= 50000 && d.cuts[50] < 55000){
+            foo = 5;
+        }else if(d.cuts[50] >= 55000 && d.cuts[50] < 60000){
+            foo = 6;
+        }else if(d.cuts[50] >= 60000 && d.cuts[50] < 65000){
+            foo = 7;
+        }else if(d.cuts[50] >= 65000 && d.cuts[50] <= 70000){
+            foo = 8;
+        }else if(d.cuts[50] >= 70000 && d.cuts[50] <= 75000){
+            foo = 9;
+        }
+    }
+    console.log(d.state +" : " +d.cuts[50] + ":" + foo);
+    rateById.set(d.id, color(+foo));
+});
 
 us.objects.states.geometries.forEach(function(d){
     d.properties = rates.filter(function(v){ return +v.id == +d.id; })[0];
@@ -12,7 +37,7 @@ us.objects.states.geometries.forEach(function(d){
 
 var usData = rates.filter(function(v){ return +v.id == 0; })[0]
 
-$("#income-line-chart").html("United States");
+$("#income-line-chart").html("<strong>United States</strong>");
 $("#per-99").html("<span><strong>$"+d3.format(",g")(usData.cuts[99])+"<strong></span>");
 $("#per-95").html("<span><strong>$"+d3.format(",g")(usData.cuts[95])+"<strong></span>");
 $("#per-75").html("<span><strong>$"+d3.format(",g")(usData.cuts[75])+"<strong></span>");
@@ -30,13 +55,9 @@ function arraySearch(arr,val) {
     return false;
 }
 
-$("#per-user").html("<span><strong>TOP "+arraySearch(blah, 100000)) + escape("%") + "</strong></span>"
+$("#per-user").html("<span><strong>TOP " + arraySearch(blah, 100000)  + "%</strong></span>")
 
-console.log(blah);
-console.log(arraySearch(blah, 100000));
-
-
-var width = 700, height = 600;
+var width = 700, height = 700;
 
 var projection = d3.geo.albersUsa()
                         .scale(750)
@@ -80,7 +101,9 @@ g.append("g")
       .data(topojson.feature(us, us.objects.states).features)
   .enter().append("path")
     .attr("class","state-area")
-    .attr("fill", function(d) { return rateById.get(d.id); })
+    .attr("fill", function(d) {
+        return rateById.get(d.id);
+    })
     .attr("d", path)
     .attr("stroke","black")
     .attr("stroke-width","2px")
@@ -89,7 +112,7 @@ g.append("g")
           var p = d.properties;
           //pieAdjust(p);
           return tip.show( '<span>' + p.state + '</span><p>' + "Median Household Income: <br>" + d3.format(",g")(p.cuts[50]))
-          console.log(d)
+
     })
     .on('mouseout', function(d){
           tip.hide()
@@ -110,89 +133,23 @@ g.append("path")
     .attr("id", "state-borders")
     .attr("d", path);
 
-var pieWidth = 120,
-    pieHeight = 120,
-    radius = Math.min(pieWidth, pieHeight) / 2;
-
-var pie = d3.layout.pie();
-
-var arc = d3.svg.arc()
-    .innerRadius(radius - 40)
-    .outerRadius(radius - 20);
-
-
-var arcT = d3.svg.arc()
-    .innerRadius(radius - 10)
-    .outerRadius(radius);
-
-var pieChart = g.append("g")
-    .attr("transform", "translate(" + [20, height - 165] + ")");
-
-pieChart.append("line")
-  .attr("y1",0)
-  .attr("y2", 140)
-  .attr("x1",185)
-  .attr("x2",185)
-  .attr("stroke","black")
-  .attr("stroke-width","1.5px")
-  .style("opacity",0.4)
-
-var arcG = pieChart.selectAll(".arc")
-  .data(pie([.025,.975]))
-.enter().append("g")
-  .attr("class", "arc")
-  .attr("transform", "translate(" + pieWidth / 2 + "," + pieHeight / 2 + ")")
-
-arcG.append("path")
-  .attr("fill", function(d, i) { return (i==0) ? "#a50f15" : "#fcae91"; })
-  .attr("stroke","white")
-  .attr("d", arc)
-  .each(function(d) { this._current = d; }); // store the initial angles
-
-var sliceLabel = d3.select(arcG[0][0]).append("text")
-  .attr("transform", function(d) { return "translate(" + arcT.centroid(d) + ")"; })
-  .attr("dy", ".35em")
-  .style("text-anchor", "middle")
-  .text(function(d) { return d3.format(".1%")(d.value); });
-
-pieChart.append("g")
-.attr("transform","translate(" + [pieWidth/2,pieHeight] + ")")
-.append("text")
-.text("Percent of Voting Age")
-.attr("text-anchor","middle")
-.style("font-weight","bold")
-
-pieChart.append("g")
-.attr("transform","translate(" + [pieWidth/2,pieHeight + 20] + ")")
-.append("text")
-.text("Population Disenfranchised")
-.attr("text-anchor","middle")
-.style("font-weight","bold")
-
-
-var stateLabel = pieChart.append("g")
-.attr("transform","translate(" + [pieWidth/2 -1,pieHeight/2 + 5] + ")")
-.append("text")
-.attr("class","littlelabel")
-.text("US")
-.attr("text-anchor","middle");
-
 var legend = g.append("g")
 .attr("transform","translate(" + [width, height] + ")")
 
 legend.append("text")
 .attr("class","legendTitle")
-.text("Who can't vote?")
-.attr("y", -140)
-.attr("x",-18)
+.text("Median Household Income By State")
+.attr("y", -230)
+.attr("x",-1)
 .style("text-anchor","end")
 
 var lSquares = legend.selectAll(".legend")
-  .data(['No voting restrictions','Inmates','Inmates & Parolees', 'Inmates, Parolees, & Probationers', 'Inmates, Parolees, Probationers, & Ex-felons'].reverse())
+  .data(['$30,000-$35,000','$35,000-$40,000','$40,000-$45,000', '$45,000-$50,000', '$50,000-$55,000', '$55,000-$60,000', '$60,000-$65,000', '$65,000-$70,000', '$70,000-$75,000'].reverse())
 .enter().append("g")
   .attr("class", "legend")
   .attr("transform", function(d, i) { return "translate(0," + (- 40 - i * 23) + ")"; });
 
+//25000,40000,50000,62500,75000
 
 lSquares.append("rect")
   .attr("x",  "-18px")
@@ -208,27 +165,3 @@ lSquares.append("text")
   .style("text-anchor", "end")
   .text(function(d) { return d; });
 
-function arcTween(a) {
-  var i = d3.interpolate(this._current, a);
-  this._current = i(0);
-  return function(t) {
-    return arc(i(t));
-  };
-}
-
-function pieAdjust(p){
-
-  // if(p.rate==0) p.rate = .00001;
-
-  var path = d3.selectAll(".arc > path").data(pie([p.rate, 1-p.rate]))
-
-  path.transition("cubic").duration(400).attrTween("d", arcTween);
-
-  sliceLabel.data(pie([p.rate, 1-p.rate]))
-      .transition().duration(300)
-      .attr("transform", function(d) { return "translate(" + arcT.centroid(d) + ")"; })
-      .text(function(d) { return d3.format(".1%")(d.value); });
-
-  d3.selectAll(".littlelabel").text(p.abbr)
-
-}
