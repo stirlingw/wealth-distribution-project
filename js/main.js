@@ -18,6 +18,7 @@ var colorScale = d3.scale.category10();
 var choropleth, timeline, areaChart, lineChart, smallMultiples, householdIncome, barChart;
 
 var formatCurrency = d3.format("$s");
+var formatTooltipCurrency = d3.format("$,");
 var formatInteger = d3.format("d");
 var format2DP = d3.format(".2f");
 

@@ -21,13 +21,6 @@ h2 {
 	padding-left: 30px;
 }
 
-.tooltip-placeholder {
-    text-anchor: left;
-    font-weight: 600;
-    font-style: italic;
-    font-size: 15px;
-}
-
 .background {
   fill: none;
   pointer-events: all;
@@ -66,8 +59,6 @@ stroke: none;
 stroke-width: 3px;
 }
 
-
-
 /*==========================================================================*/
 /* Multi-series Area Chart
 /*==========================================================================*/
@@ -76,6 +67,31 @@ stroke-width: 3px;
     font-weight: 600;
     font-style: italic;
     font-size: 15px;
+}
+
+/*==========================================================================*/
+/* BarChart for Median Household Income
+/*==========================================================================*/
+.bar {
+    fill: blue;
+    opacity: 0.5;
+}
+
+.bar:hover {
+    fill: green;
+    opacity: 1.0;
+}
+
+#label-us-income{
+    fill: red;
+}
+
+.tooltip-placeholder-HI {
+    text-anchor: left;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 15px;
+    fill: green;
 }
 
 /*==========================================================================*/
@@ -204,11 +220,6 @@ label {
 
 .bs-callout-info {
     border-left-color: #1b809e;
-}
-
-
-.bar:hover {
-  fill: orangered ;
 }
 
 .x.axis path {

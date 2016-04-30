@@ -81,8 +81,8 @@ HouseholdIncome.prototype.initVis = function(){
     //console.log("maxIncome", vis.maxIncome);
 
     // SVG Size
-    vis.margin = {top: 40, right: 40, bottom: 60, left: 60};
-    vis.width = 1000 - vis.margin.left - vis.margin.right;
+    vis.margin = {top: 40, right: 100, bottom: 60, left: 60};
+    vis.width = 1200 - vis.margin.left - vis.margin.right;
     vis.height = 500 - vis.margin.top - vis.margin.bottom;
     vis.barPadding = 0.1;
     vis.labelOffset = 5;
@@ -119,6 +119,16 @@ HouseholdIncome.prototype.initVis = function(){
         .orient("left");
     vis.yAxisGroup = vis.svg.append("g")
         .attr("class", "y-axis axis");
+
+    // Tooltip placeholder
+    var tooltip_x_pos = 35;
+    var tooltip_y_pos = 15;
+
+    vis.svg.append("g")
+        .append("text")
+        .attr("class", "tooltip-placeholder-HI")
+        .attr("x", tooltip_x_pos)
+        .attr("y", tooltip_y_pos);
 
     // Timing for transition
     vis.time_transition = 1000;
@@ -181,6 +191,10 @@ HouseholdIncome.prototype.updateVis = function(){
     vis.usLine = vis.svg.selectAll(".line_US")
             .data(vis.displayUSData);
 
+    // Create label for us-line's median household income
+    vis.usLineLabel = vis.svg.selectAll(".group_line_US")
+        .data(vis.displayUSData);
+
     /*==========================================================================*/
     /* Enter (initialize the newly added elements)
     /*==========================================================================*/
@@ -195,6 +209,12 @@ HouseholdIncome.prototype.updateVis = function(){
         .attr("x2", vis.width)
         .attr("y1", function (d) { return vis.yScale(d["Median Household Income"]); })
         .attr("y2", function (d) { return vis.yScale(d["Median Household Income"]); });
+
+    vis.usLineLabel.enter().append("text")
+        .attr("class", "label-us-income")
+        .attr("id", "label-us-income")
+        .attr("dx", 12)
+        .attr("dy", ".35em");
 
     /*==========================================================================*/
     /* Update (set the dynamic properties of the elements)
@@ -212,6 +232,17 @@ HouseholdIncome.prototype.updateVis = function(){
         .duration(vis.time_transition)
         .attr("y1", function (d) { return vis.yScale(d["Median Household Income"]); })
         .attr("y2", function (d) { return vis.yScale(d["Median Household Income"]); });
+    
+    // Update label for us-line
+    d3.select("#label-us-income")
+        .data(vis.displayUSData)
+        .transition() // transition entering + updating
+        .duration(vis.time_transition)
+        .attr("x", vis.width)
+        .attr("y", function (d) { return vis.yScale(d["Median Household Income"]); })
+        .text(function(d) {
+            return formatTooltipCurrency(d["Median Household Income"]);
+        });
 
     // Update axes
     vis.svg.select(".x-axis")
@@ -222,6 +253,17 @@ HouseholdIncome.prototype.updateVis = function(){
         .transition()
         .duration(vis.time_transition_axis)
         .call(vis.yAxis);
+
+    // Update tooltip text
+    vis.barChart
+        .on("mouseover", function(d) {
+            vis.svg.selectAll(".tooltip-placeholder-HI")
+                .html(d["State"] + " (" + d["Abbreviation"] + ") " + formatTooltipCurrency(d["Median Household Income"]));
+        })
+        .on("mouseout", function(d) {
+            vis.svg.selectAll(".tooltip-placeholder")
+                .text("");
+        });
 
     /*==========================================================================*/
     /* Exit
