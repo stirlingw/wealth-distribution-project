@@ -1,5 +1,7 @@
 var rateById = d3.map();
 
+
+
 // var color = d3.scale.ordinal().domain([1,2,3,4,5]).range(["#009ed8","#80e28e","#e9ec32","#f6a023","#f37124"])
 
 var color = d3.scale.ordinal().domain([0,1,2,3,4,5,6,7,8,9]).range(["#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707", "#651067", "#329262", "#5574a6", "#3b3eac"])
@@ -45,11 +47,10 @@ $("#per-75").html("<span><strong>$"+d3.format(",g")(usData.cuts[75])+"<strong></
 $("#per-50").html("<span><strong>$"+d3.format(",g")(usData.cuts[50])+"<strong></span>");
 $("#per-25").html("<span><strong>$"+d3.format(",g")(usData.cuts[25])+"<strong></span>");
 $("#per-10").html("<span><strong>$"+d3.format(",g")(usData.cuts[10])+"<strong></span>");
-
 $("#per-user").html("<span><strong>TOP " + (100 - arraySearch(getPercentage(usData), 100000))  + "%</strong></span>");
 
-var width = 800, height = 450;
-var projection = d3.geo.albersUsa().scale(750).translate([width / 2, height / 2 -45]);
+var width = 900, height = 450;
+var projection = d3.geo.albersUsa().scale(1000).translate([width / 2, height / 2]);
 var path = d3.geo.path().projection(projection);
 var margin = {top: 0, left: 10, right: 10, bottom: 10};
 
@@ -103,7 +104,7 @@ g.append("g")
     .on('click', function(d){
         var p = d.properties;
         $("#income-line-chart").html(p.state);
-        $("#per-user").html("<span><strong>TOP " + (100 - arraySearch(getPercentage(p), 100000))  + "%</strong></span>");
+        $("#per-user").html("<span><strong>TOP " + (100 - arraySearch(getPercentage(p), Number(document.getElementById('input-with-keypress').value)))  + "%</strong></span>");
         $("#per-99").html("<span><strong>$"+d3.format(",g")(p.cuts[99])+"<strong></span>");
         $("#per-95").html("<span><strong>$"+d3.format(",g")(p.cuts[95])+"<strong></span>");
         $("#per-75").html("<span><strong>$"+d3.format(",g")(p.cuts[75])+"<strong></span>");
@@ -152,11 +153,17 @@ g.append("path")
 //    .text(function(d) { return d; });
 
 
-function getPercentage(data){
-    var blah = data.cuts.push(100000)
+function getPercentage(data, inputValue){
+    if(inputValue == undefined){
+        var inputValue = Number(document.getElementById('input-with-keypress').value);
+    }else{
+        var inputValue = 100000;
+    }
+    var blah = data.cuts.push(inputValue)
     blah = data.cuts.sort(function(a, b){return a-b})
     return blah
 }
+
 
 function arraySearch(arr,val) {
     for (var i=0; i<arr.length; i++)
@@ -164,3 +171,58 @@ function arraySearch(arr,val) {
             return i;
     return false;
 }
+
+
+var keypressSlider = document.getElementById('keypress');
+var input = document.getElementById('input-with-keypress');
+
+noUiSlider.create(keypressSlider, {
+    start: [ 100000 ],
+    step: 10,
+    range: {
+        'min': [  1000 ],
+        'max': [ 400000 ]
+    },
+    pips: {
+        mode: 'values',
+        values: [1000, 100000, 200000, 300000, 400000],
+        density: 4
+    }
+});
+
+keypressSlider.noUiSlider.on('update', function( values, handle ) {
+	input.value = values[handle];
+});
+
+input.addEventListener('change', function(){
+	if ( this.value < 1000 ) {
+        keypressSlider.noUiSlider.set([null, 1000]);
+    } else if ( this.value > 400000 ) {
+        keypressSlider.noUiSlider.set([null, 400000]);
+    }else{
+        keypressSlider.noUiSlider.set([null, this.value]);
+    }
+});
+
+// Listen to keydown events on the input field.
+input.addEventListener('keydown', function( e ) {
+
+	// Convert the string to a number.
+	var value = Number( keypressSlider.noUiSlider.get() ),
+		sliderStep = keypressSlider.noUiSlider.steps()
+
+	// Select the stepping for the first handle.
+	sliderStep = sliderStep[0];
+
+	switch ( e.which ) {
+		case 13:
+			keypressSlider.noUiSlider.set(this.value);
+			break;
+		case 38:
+			keypressSlider.noUiSlider.set( value + sliderStep[1] );
+			break;
+		case 40:
+			keypressSlider.noUiSlider.set( value - sliderStep[0] );
+			break;
+	}
+});
