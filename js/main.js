@@ -110,7 +110,7 @@ function createVis() {
     householdIncome = new HouseholdIncome("income-bar-chart", household_income_dataset_dc);
     smallMultiples = new SmallMultiples("small-multiples", household_income_dataset);
     barChart = new BarChart("bar-chart", average_real_wealth_per_family_dataset);
-    choropleth = new Choropleth("choropleth", allData);
+    //choropleth = new Choropleth("choropleth", allData);
 }
 
 

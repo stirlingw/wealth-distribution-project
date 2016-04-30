@@ -101,20 +101,27 @@
         <div class="row">
             <div class="col-md-8">
                 <!-- Visualization placeholders -->
-                <div id="us-chart">
-                    <strong>National View Of Household Income by States: (color: Household Income)</strong>
-                    <a class="reset" href="javascript:dc.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-                    <span class="reset" style="display: none;"> | Current filter: <span class="filter"></span></span>
-
-                    <div class="clearfix"></div>
-                </div>
+                <div class=".d3-tip"></div>
+                <div id="map"></div>
                 <div class="clearfix"></div>
             </div>
             <div class="col-md-4">
-                <div id="income-line-chart">
-                    <div class="clearfix"></div>
+                <div id="income-line-chart" class="col-md-12">United States</div>
+                <div class="clearfix"></div>
+                <div id="income-line-chart-desc" class="col-md-10">
+                    <p>A household income of $100,000 places you in the</p>
+                    <p id="per-user"></p>
+                    <p>of people who live there.</p>
                 </div>
                 <div class="clearfix"></div>
+                <table>
+                    <tr><td class="col-md-2">Top 1%</td><td class="col-md-2" id="per-99"></td></tr>
+                    <tr><td class="col-md-2">Top 5%</td><td class="col-md-2" id="per-95"></td></tr>
+                    <tr><td class="col-md-2">Top 25%</td><td class="col-md-2" id="per-75"></td></tr>
+                    <tr><td class="col-md-2">Top Half</td><td class="col-md-2" id="per-50"></td></tr>
+                    <tr><td class="col-md-2">Bottom 25%</td><td class="col-md-2" id="per-25"></td></tr>
+                    <tr><td class="col-md-2">Bottom 10%</td><td class="col-md-2" id="per-10"></td></tr>
+                </table>
             </div>
         </div>
     </div>
@@ -196,7 +203,7 @@
         </div>
         <div class="row">
             <table id="tbl-sm" style="width:100%">
-                <tr>
+                <tr style="background-color:light-purple">
                     <th>Region</th>
                     <th><input type="checkbox" id="checkBox_Pacific" value="Pacific" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_Pacific">Pacific</label></th>
                     <th><input type="checkbox" id="checkBox_Mountain" value="Mountain" onchange="checkmultipleSM(this)" checked="true"><label for="checkBox_Mountain">Mountain</label></th>
@@ -378,12 +385,17 @@
     <script src="js/jquery-ui.js"></script>
     <script src="js/d3.tip.js"></script>
     <script src="js/nouislider.min.js"></script>
+    <script src="js/topojson.v1.min.js"></script>
+    <script src="js/colorbrewer.v1.min.js"></script>
 
     <!-- Load Global Variables -->
     <script src="js/us_states.js"></script>
 
     <!-- Visualization objects -->
-    <script src="js/choropleth.js"></script>
+    <script src="js/us_states2.js"></script>
+    <script src="js/rates2.js"></script>
+    <script src="js/choropleth2.js"></script>
+
     <!--<script src="js/timeline.js"></script>-->
     <script src="js/lineChart.js"></script>
     <script src="js/areaChart.js"></script>
