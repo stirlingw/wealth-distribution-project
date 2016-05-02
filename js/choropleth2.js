@@ -146,21 +146,11 @@ Choropleth.prototype.initVis = function(){
         }
     });
 
-    this.wrangleData();
-}
-
-Choropleth.prototype.wrangleData = function(){
-    var vis = this;
-
-
-
     this.updateVis();
 }
 
-
 Choropleth.prototype.updateVis = function(){
     var vis = this;
-
     vis.tip.attr("class","d3-tip");
 
     vis.g.append("g")
